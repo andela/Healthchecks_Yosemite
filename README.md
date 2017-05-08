@@ -1,4 +1,8 @@
-# healthchecks
+# Status
+
+[![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg?branch=continous_integration)](https://travis-ci.org/andela/Healthchecks_Yosemite)
+
+## healthchecks
 
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
