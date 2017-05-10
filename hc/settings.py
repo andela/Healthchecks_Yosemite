@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,7 +34,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'compressor',
     'djmail',
-
     'hc.accounts',
     'hc.api',
     'hc.front',
@@ -78,15 +78,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hc.wsgi.application'
 TEST_RUNNER = 'hc.api.tests.CustomRunner'
 
-
 # Default database engine is SQLite. So one can just check out code,
 # install requirements.txt and do manage.py runserver and it works
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':   './hc.sqlite',
+if os.environ.get("PLATFORM") == "HEROKU":
+    databse_url = os.environ.get("DATABASE_URL")
+    DATABASES = {
+        'default': dj_database_url(default=databse_url)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME':   './hc.sqlite',
+        }
+    }
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
@@ -151,6 +156,6 @@ PUSHBULLET_CLIENT_ID = None
 PUSHBULLET_CLIENT_SECRET = None
 
 if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
-    from .local_settings import *
+    from local_settings import *
 else:
     warnings.warn("local_settings.py not found, using defaults")
