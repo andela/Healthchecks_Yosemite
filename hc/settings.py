@@ -83,7 +83,7 @@ TEST_RUNNER = 'hc.api.tests.CustomRunner'
 if os.environ.get("PLATFORM") == "HEROKU":
     databse_url = os.environ.get("DATABASE_URL")
     DATABASES = {
-        'default': dj_database_url(default=databse_url)
+        'default': dj_database_url.config(default=databse_url)
     }
 else:
     DATABASES = {
