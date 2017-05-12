@@ -1,6 +1,6 @@
 # Status
 
-[![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg?branch=master)](https://travis-ci.org/andela/Healthchecks_Yosemite)
+[![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg?branch=continous_integration)](https://travis-ci.org/andela/Healthchecks_Yosemite)
 [![Coverage Status](https://coveralls.io/repos/github/andela/Healthchecks_Yosemite/badge.svg?branch=master)](https://coveralls.io/github/andela/Healthchecks_Yosemite?branch=master)
 
 ## healthchecks
