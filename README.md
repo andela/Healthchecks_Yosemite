@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg?branch=master)](https://travis-ci.org/andela/Healthchecks_Yosemite)
 [![Coverage Status](https://coveralls.io/repos/github/andela/Healthchecks_Yosemite/badge.svg?branch=master)]
+[![Coverage Status](https://coveralls.io/repos/github/andela/Healthchecks_Yosemite/badge.svg?branch=master)](https://coveralls.io/github/andela/Healthchecks_Yosemite?branch=master)
 
 ## healthchecks
 
@@ -12,7 +13,9 @@
 ![Screenshot of Period/Grace dialog](/stuff/screenshots/period_grace.png?raw=true "Period/Grace Dialog")
 
 ![Screenshot of Channels page](/stuff/screenshots/channels.png?raw=true "Channels Page")
-(https://coveralls.io/github/andela/Healthchecks_Yosemite?branch=master)
+
+
+
 healthchecks is a watchdog for your cron jobs. It's a web server that listens for pings from your cron jobs, plus a web interface.
 
 It is live here: [http://healthchecks.io/](http://healthchecks.io/)
