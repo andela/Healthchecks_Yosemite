@@ -6,7 +6,6 @@ from hc.test import BaseTestCase
 
 @override_settings(PUSHOVER_API_TOKEN="token", PUSHOVER_SUBSCRIPTION_URL="url")
 class AddChannelTestCase(BaseTestCase):
-
     def test_it_adds_email(self):
         url = "/integrations/add/"
         form = {"kind": "email", "value": "alice@example.org"}
@@ -37,5 +36,32 @@ class AddChannelTestCase(BaseTestCase):
             r = self.client.get(url)
             self.assertContains(r, "Integration Settings", status_code=200)
 
-    ### Test that the team access works
-    ### Test that bad kinds don't work
+            ### Test that the team access works
+            # team consists (alice, bob)
+            # saving user alice in the system
+
+    def test_team_access_works(self):
+        self.channel = Channel(user=self.alice, kind="email")
+        self.channel.value = "this value is to check that our test works"
+        self.channel.save()
+
+        # We login as bob since bob has access
+        # navigate to below url
+        url = "/integrations/{}/checks/".format(self.channel.code)
+
+        self.client.login(username="bob@example.org", password="password")
+        res = self.client.get(url)
+        self.assertContains(res, "List of alice's checks (yosemite team)", status_code=200)
+
+    ### Test that bad kinds don't work (kinds that were not included in the channel_kinds)
+
+    def test_bad_kinds(self):
+        # Tests invalid channels
+        self.client.login(username="bob@example.org", password="password")
+        #kinds = ("twitter", "instagram", "linkedin", "medium")
+        kinds = ("email",)
+        for kind in kinds:
+            url = "/integrations/add_{}/".format(kind)
+            response = self.client.get(url)
+            assert response.status_code == 404
+
