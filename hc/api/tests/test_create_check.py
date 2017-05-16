@@ -17,6 +17,7 @@ class CreateCheckTestCase(BaseTestCase):
         if expected_error:
             self.assertEqual(r.status_code, 400)
             ### Assert that the expected error is the response error
+            self.assertEqual(r['bad_request'], expected_error )
 
         return r
 
@@ -79,3 +80,8 @@ class CreateCheckTestCase(BaseTestCase):
 
     ### Test for the assignment of channels
     ### Test for the 'timeout is too small' and 'timeout is too large' errors
+    def test_assigment_timeout_is_too_small(self):
+        self.post({"api_key":'abc', "time_out":1}, expected_error= 'timeout is too small')
+    
+    def test_assigment_timeout_is_too_large(self):
+        self.post({"api_key":"abc", "timeout":180000}, expected_error='timeout is too long')
