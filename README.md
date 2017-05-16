@@ -1,8 +1,9 @@
 # Status
 
 [![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg)](https://travis-ci.org/andela/Healthchecks_Yosemite)
-[![Code Issues](https://www.quantifiedcode.com/api/v1/project/848012f6438a4c948956282e91b588a0/badge.svg)](https://www.quantifiedcode.com/app/project/848012f6438a4c948956282e91b588a0)
 [![Coverage Status](https://coveralls.io/repos/github/andela/Healthchecks_Yosemite/badge.svg)](https://coveralls.io/github/andela/Healthchecks_Yosemite)
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/848012f6438a4c948956282e91b588a0/badge.svg)](https://www.quantifiedcode.com/app/project/848012f6438a4c948956282e91b588a0)
+
 
 
 
