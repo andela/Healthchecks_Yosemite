@@ -56,10 +56,8 @@ class AddChannelTestCase(BaseTestCase):
     ### Test that bad kinds don't work (kinds that were not included in the channel_kinds)
 
     def test_bad_kinds(self):
-        # Tests invalid channels
         self.client.login(username="bob@example.org", password="password")
-        #kinds = ("twitter", "instagram", "linkedin", "medium")
-        kinds = ("email",)
+        kinds = ("twitter", "instagram", "linkedin", "medium")
         for kind in kinds:
             url = "/integrations/add_{}/".format(kind)
             response = self.client.get(url)
