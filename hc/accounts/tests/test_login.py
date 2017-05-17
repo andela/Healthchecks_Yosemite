@@ -18,20 +18,23 @@ class LoginTestCase(TestCase):
 
         r = self.client.post("/accounts/login/", form)
         assert r.status_code == 302
-
-        ### Assert that a user was created
+        # Assert that a user was created
+        self.assertEqual(User.objects.count(), 1)
 
         # And email sent
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Log in to healthchecks.io')
-        ### Assert contents of the email body
+        self.assertIn(mail.outbox[0].body, 'To log into healthchecks.io, \
+                       please open the link below: ')
+        # Assert contents of the email body
 
-        ### Assert that check is associated with the new user
+        # Assert that check is associated with the new user
+        check_again = Check.objects.get(code=session["welcome_code"])
+        assert check_again.user
 
     def test_it_pops_bad_link_from_session(self):
         self.client.session["bad_link"] = True
         self.client.get("/accounts/login/")
         assert "bad_link" not in self.client.session
 
-        ### Any other tests?
-
+        # Any other tests?
