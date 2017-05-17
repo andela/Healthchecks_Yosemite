@@ -48,5 +48,4 @@ class AddPushoverTestCase(BaseTestCase):
         # Assign the wrong priority parameter
         params = "pushover_user_key=a&nonce=n&prio=7"
         res = self.client.get("/integrations/add_pushover/?{}".format(params))
-        print(res.status_code)
         self.assertEqual(res.status_code, 400)
