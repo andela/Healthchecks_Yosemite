@@ -9,3 +9,4 @@ static-collected
 static/.DS_Store
 hc_27_2nv
 .cache
+.vscode
