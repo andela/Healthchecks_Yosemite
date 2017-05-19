@@ -20,3 +20,6 @@ class AddCheckTestCase(BaseTestCase):
         # Confirming that, this check has been created by bob
         # Since Bob and Alice share channels, then Alice should be able to access any check that is created by bob
         self.assertEqual(check.user, self.bob)
+
+
+

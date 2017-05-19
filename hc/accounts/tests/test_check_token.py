@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class CheckTokenTestCase(BaseTestCase):
-
     def setUp(self):
         super(CheckTokenTestCase, self).setUp()
         self.profile.token = make_password("secret-token")
@@ -21,8 +20,8 @@ class CheckTokenTestCase(BaseTestCase):
         self.profile.refresh_from_db()
         self.assertEqual(self.profile.token, "")
 
-    ### Login and test it redirects already logged in
+        ### Login and test it redirects already logged in
 
-    ### Login with a bad token and check that it redirects
+        ### Login with a bad token and check that it redirects
 
-    ### Any other tests?
+        ### Any other tests?
