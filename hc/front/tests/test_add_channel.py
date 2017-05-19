@@ -42,7 +42,7 @@ class AddChannelTestCase(BaseTestCase):
 
     def test_team_access_works(self):
         self.channel = Channel(user=self.alice, kind="email")
-        self.channel.value = "this value is to check that our test works"
+        self.channel.value = "alice@example.org"
         self.channel.save()
 
         # We login as bob since bob has access
@@ -51,7 +51,7 @@ class AddChannelTestCase(BaseTestCase):
 
         self.client.login(username="bob@example.org", password="password")
         res = self.client.get(url)
-        self.assertContains(res, "List of alice's checks (yosemite team)", status_code=200)
+        self.assertContains(res, "Assign Checks to Channel", status_code=200)
 
     ### Test that bad kinds don't work (kinds that were not included in the channel_kinds)
 
