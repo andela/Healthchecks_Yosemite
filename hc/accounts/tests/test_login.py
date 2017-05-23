@@ -25,9 +25,8 @@ class LoginTestCase(TestCase):
         # Assert contents of the email body
         self.assertIn('To log into healthchecks.io, ', mail.outbox[0].body)
         # Assert that check is associated with the new user
-        self.assertEqual(session["welcome_code"].replace('-', ''),
-                         Check.objects.filter(user_id=1)[0].code.hex)
-        # assert check_again.user
+        check_user = Check.objects.get(code=check.code)
+        assert check_user.user
 
     def test_it_pops_bad_link_from_session(self):
         self.client.session["bad_link"] = True
