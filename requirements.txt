@@ -1,3 +1,4 @@
+api==1.0.0.dev5
 appdirs==1.4.3
 boto==2.46.1
 cssselect==1.0.1
@@ -9,14 +10,16 @@ django-compressor==2.1
 django-ses-backend==0.1.1
 djmail==0.11.0
 futures==3.0.3
-gunicorn==19.7.1
 lxml==3.7.3
+mock==2.0.0
 packaging==16.8
+pbr==3.0.1
+gunicorn==19.7.1
 premailer==2.9.6
 psycopg2==2.6.1
 pyparsing==2.2.0
 rcssmin==1.0.6
-requests==2.9.1
+requests==2.12.1
 rjsmin==1.0.12
 six==1.10.0
 whitenoise==3.3.0

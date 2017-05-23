@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class CheckTokenTestCase(BaseTestCase):
-
     def setUp(self):
         super(CheckTokenTestCase, self).setUp()
         self.profile.token = make_password("secret-token")
@@ -38,5 +37,4 @@ class CheckTokenTestCase(BaseTestCase):
         self.assertRedirects(r, "/accounts/login/")
         self.assertContains(r, "incorrect or expired")
 
-
-    ### Any other tests?
+        ### Any other tests?
