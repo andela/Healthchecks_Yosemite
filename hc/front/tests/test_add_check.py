@@ -1,8 +1,15 @@
-from hc.api.models import Check
+from hc.api.models import Check, Channel
 from hc.test import BaseTestCase
 
 
 class AddCheckTestCase(BaseTestCase):
+
+    def setUp(self):
+        super(AddCheckTestCase, self).setUp()
+        self.channel = Channel(user=self.alice, kind="email")
+        self.channel.value = "alice@example.org"
+        self.channel.save()
+
     def test_it_works(self):
         url = "/checks/add/"
         self.client.login(username="alice@example.org", password="password")
