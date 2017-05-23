@@ -18,15 +18,18 @@ class LoginTestCase(TestCase):
         r = self.client.post("/accounts/login/", form)
         assert r.status_code == 302
         # Assert that a user was created
-        self.assertEqual(len(User.objects.all()), 1)
+        users = User.objects.all()
+        user = users[0]
+
+        self.assertEqual("alice@example.org", User.objects.get(pk=user.id).email)
         # And email sent
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Log in to healthchecks.io')
         # Assert contents of the email body
         self.assertIn('To log into healthchecks.io, ', mail.outbox[0].body)
         # Assert that check is associated with the new user
-        check_user = Check.objects.get(code=check.code)
-        assert check_user.user
+        self.assertEqual(session["welcome_code"].replace('-', ''),
+                         Check.objects.filter(user_id=user.id)[0].code.hex)
 
     def test_it_pops_bad_link_from_session(self):
         self.client.session["bad_link"] = True
