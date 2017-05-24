@@ -17,11 +17,15 @@ urlpatterns = [
 
     url(r'^unsubscribe_reports/([\w-]+)/$',
         views.unsubscribe_reports, name="hc-unsubscribe-reports"),
+    url(r'^unsubscribe_weekly_reports/([\w-]+)/$',
+        views.unsubscribe_weekly_reports, name="hc-unsubscribe-weekly-reports"),
 
+    url(r'^unsubscribe_daily_reports/([\w-]+)/$',
+        views.unsubscribe_daily_reports, name="hc-unsubscribe-daily-reports"),
     url(r'^set_password/([\w-]+)/$',
         views.set_password, name="hc-set-password"),
 
-   url(r'^switch_team/([\w-]+)/$',
+    url(r'^switch_team/([\w-]+)/$',
         views.switch_team, name="hc-switch-team"),
 
 
