@@ -24,14 +24,41 @@
             <div class="panel-body settings-block">
                 <form method="post">
                     {% csrf_token %}
-                    <h2>Monthly Reports</h2>
+                    <h2>Choose when to recieve reports</h2>
+                    <label style="
+                    padding-right: 15px;"> 
+                        <input
+                            name="reports_allowed"
+                            type="radio"
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        No Alerts
+                    </label>                    
+                    <label style="
+                    padding-right: 15px;"> 
+                        <input
+                            name="reports_allowed"
+                            type="radio"
+                            value="no_alerts"
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Monthly
+                    </label>
+                    <label style="
+                    padding-right: 15px;"> 
+                        <input
+                            name="reports_allowed"
+                            type="radio"
+                            value='monthly'
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Weekly
+                    </label>
                     <label>
                         <input
                             name="reports_allowed"
-                            type="checkbox"
+                            type="radio"
+                            value='weekly'
                             {% if profile.reports_allowed %} checked {% endif %}>
-                        Each month send me a summary of my checks
-                    </label>
+                        Daily
+                    </label>                                        
                     <button
                         name="update_reports_allowed"
                         type="submit"
