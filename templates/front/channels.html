@@ -34,6 +34,7 @@
             {% if ch.kind == "pd" %} PagerDuty {% endif %}
             {% if ch.kind == "po" %} Pushover {% endif %}
             {% if ch.kind == "victorops" %} VictorOps {% endif %}
+            {% if ch.kind == "sms" %} SMS {% endif %}
             {% if ch.kind == "pushbullet" %} Pushbullet {% endif %}
             </td>
             <td class="value-cell">
@@ -43,6 +44,9 @@
                     {% if not ch.email_verified %}
                         <span class="channel-unconfirmed">(unconfirmed)</span>
                     {% endif %}
+                {% elif ch.kind == "sms" %}
++                    <span class="preposition">Phone Number</span>
++                    {{ ch.value }}
                 {% elif ch.kind == "pd" %}
                     <span class="preposition">API key</span>
                     {{ ch.value }}
@@ -126,6 +130,14 @@
 
     <h1 class="ai-title">Add More</h1>
     <ul class="add-integration">
+        <li>
+             <img src="{% static 'img/integrations/sms.jpeg' %}" class="icon" alt="SMS icon" />
+
+             <h2>SMS</h2>
+            <p>Get an SMS notification when check goes up or down.</p>
+
+             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#set-phone-number">Add Integration</a>
+        </li>
         <li>
             <img src="{% static 'img/integrations/slack.png' %}"
                 class="icon" alt="Slack icon" />
@@ -247,6 +259,37 @@
     </div>
 </div>
 
+<div id="#set-phone-number" class="modal">
+    <div class= "modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="remove-check-title">Set SMS Integration<span class="remove-channel-name"></span></h4>
+        </div>
+        <div class= "modal-body">
+            <div class="row">
+            <div class="col-sm-12">
+                 <p>Get an SMS when check goes up or down.</p>
+
+                 <p>
+                     <strong>Tip:</strong> Add multiple phone numbers to notify multiple team members.
+                 </p>
+                 <br>
+
+                <form method="post" class="form-horizontal" action="{% url 'hc-add-channel' %}">
+                     {% csrf_token %}
+                     <input type="hidden" name="kind" value="sms" />
+                     <div class="form-group">
+                         <label for="sms" class="col-sm-3 control-label">Phone Number</label>
+                         <div class="col-sm-6">
+                             <input id="sms" type="text" class="form-control" name="value" placeholder="+[Country code][Phone Number]">
+                        </div>
+                     </div>
+            </div>
+        </div>
+        <div class= "modal-footer">
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
