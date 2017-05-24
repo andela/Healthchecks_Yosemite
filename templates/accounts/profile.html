@@ -15,45 +15,61 @@
     {% endif %}
 </div>
 
+
 <div class="row">
     <div class="col-sm-6">
         <div class="panel panel-default">
             <div class="panel-body settings-block">
                 <form method="post">
                     {% csrf_token %}
-                    <h2>Choose when to recieve reports</h2>
-                    <label style="
-                    padding-right: 15px;"> 
-                        <input
-                            name="reports_allowed"
-                            type="radio"
-                            {% if profile.no_reports_allowed %} checked {% endif %}>
-                        No Alerts
-                    </label>
-                    <label style="
-                    padding-right: 15px;"> 
-                        <input
-                            name="reports_allowed"
-                            type="radio"
-                            {% if profile.reports_allowed %} checked {% endif %}>
-                        Monthly
-                    </label>
-                    <label style="
-                    padding-right: 15px;"> 
-                        <input
-                            name="weekly_reports_allowed"
-                            type="radio"
-                            {% if profile.weekly_reports_allowed %} checked {% endif %}>
-                        Weekly
-                    </label>
+                    <h2>Monthly Reports</h2>
                     <label>
                         <input
-                            name="daily_reports_allowed"
-                            type="radio"
-                            {% if profile.daily_reports_allowed %} checked {% endif %}>
-                        Daily
+                            name="reports_allowed"
+                            type="checkbox"
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Each month send me a summary of my checks
                     </label>
-                    <button name="update_reports_allowed" type="submit" class="btn btn-default pull-right">Save</button>
+                    <button
+                        name="update_reports_allowed"
+                        type="submit"
+                        class="btn btn-default pull-right">Save</button>
+                </form>
+            </div>
+        </div>
+        <!--Weekly reports-->
+        <div class="panel panel-default">
+            <div class="panel-body settings-block">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2>Weekly Reports</h2>
+                    <label>
+                        <input type="checkbox" name="weekly_reports_allowed"
+                        {% if profile.weekly_reports_allowed %} checked {% endif %}>
+                        Each week send me a summary of my checks
+                    </label>
+                    <button name="update_weekly_reports_allowed"
+                        type="submit" class="btn btn-default pull-right">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!--Daily reports-->
+        <div class="panel panel-default">
+            <div class="panel-body settings-block">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2>Daily Reports</h2>
+                    <label>
+                        <input type="checkbox" name="daily_reports_allowed"
+                        {% if profile.daily_reports_allowed %} checked {% endif %}>
+                        Each day send me a summary of my checks
+                    </label>
+                    <button name="update_daily_reports_allowed"
+                        type="submit" class="btn btn-default pull-right">
+                        Save
+                    </button>
                 </form>
             </div>
         </div>

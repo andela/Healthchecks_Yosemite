@@ -158,16 +158,19 @@ def profile(request):
             if form.is_valid():
                 profile.reports_allowed = form.cleaned_data["reports_allowed"]
                 profile.save()
-                messages.success(request, "Your now subscribed to monthly reports!")
-            elif form.is_valid():
+                messages.success(request, "Your Monthly settings have been updated sucessfully!")
+        elif "update_weekly_reports_allowed" in request.POST:
+            form = ReportSettingsForm(request.POST)
+            if form.is_valid():
                 profile.weekly_reports_allowed = form.cleaned_data["weekly_reports_allowed"]
                 profile.save()
-                messages.success(request, "Your now subscribed to weekly reports!")
-            elif form.is_valid():
+                messages.success(request, "Your weekly settings have been updated sucessfully!")
+        elif "update_daily_reports_allowed" in request.POST:
+            form = ReportSettingsForm(request.POST)
+            if form.is_valid():
                 profile.daily_reports_allowed = form.cleaned_data["daily_reports_allowed"]
                 profile.save()
-                messages.success(request, "Your now subscribed to daily reports!")
-
+                messages.success(request, "Your daily settings have been updated succesfully!")                
         elif "invite_team_member" in request.POST:
             if not profile.team_access_allowed:
                 return HttpResponseForbidden()

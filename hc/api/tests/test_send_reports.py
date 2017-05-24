@@ -12,7 +12,7 @@ class SendReportsTestCase(BaseTestCase):
         """ Tests one run sends daily reports """
         joined_date= timezone.now() - timedelta(days=1)
         self.alice.date_joined = joined_date
-        self.profile.reports_allowed = 1
+        self.profile.daily_reports_allowed = 1
         self.alice.save()
         self.profile.save()
         check = Check(user=self.alice, status="up", last_ping=timezone.now())
@@ -25,7 +25,7 @@ class SendReportsTestCase(BaseTestCase):
         """ Tests one run sends weekly reports """
         joined_date = timezone.now() - timedelta(days=7)
         self.alice.date_joined = joined_date
-        self.profile.reports_allowed = 7
+        self.profile.weekly_reports_allowed = 7
         self.alice.save()
         self.profile.save()
         check = Check(user=self.alice, status="up", last_ping=timezone.now())
