@@ -57,6 +57,7 @@ class Profile(models.Model):
 
     def send_report(self):
         # reset next report date first:
+        # default for users to recieve monthly reports
         now = timezone.now()
         self.next_report_date = now + timedelta(days=30)
         self.save()
