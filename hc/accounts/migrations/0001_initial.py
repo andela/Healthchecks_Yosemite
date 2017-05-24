@@ -1,23 +1,23 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0006_profile_current_team'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='profile',
-            name='daily_reports_allowed',
-            field=models.BooleanField(default=True),
-        ),
-        migrations.AddField(
-            model_name='profile',
-            name='weekly_reports_allowed',
-            field=models.BooleanField(default=True),
+        migrations.CreateModel(
+            name='Profile',
+            fields=[
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('next_report_date', models.DateTimeField(null=True, blank=True)),
+                ('reports_allowed', models.BooleanField(default=True)),
+                ('user', models.OneToOneField(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
         ),
     ]

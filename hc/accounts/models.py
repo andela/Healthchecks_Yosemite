@@ -81,7 +81,8 @@ class Profile(models.Model):
         self.save()
 
         token = signing.Signer().sign(uuid.uuid4())
-        path = reverse("hc-unsubscribe-weekly_reports", args=[self.user.username])
+        path = reverse("hc-unsubscribe-weekly_reports",
+                       args=[self.user.username])
         unsub_link = "%s%s?token=%s" % (settings.SITE_ROOT, path, token)
 
         ctx = {
@@ -99,7 +100,8 @@ class Profile(models.Model):
         self.save()
 
         token = signing.Signer().sign(uuid.uuid4())
-        path = reverse("hc-unsubscribe-daily_reports", args=[self.user.username])
+        path = reverse("hc-unsubscribe-daily_reports",
+                       args=[self.user.username])
         unsub_link = "%s%s?token=%s" % (settings.SITE_ROOT, path, token)
 
         ctx = {
