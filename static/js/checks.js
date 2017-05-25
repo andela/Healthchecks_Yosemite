@@ -1,5 +1,37 @@
-$(function () {
 
+
+//This is a function that was implemented to compute days , hours and minutes from seconds
+//The function takes in a single argument which is the total number of seconds
+//It returns a four elements array which contains number of days, Hours, minutes and seconds from index 0 to 3 respectively
+
+function getTimes(seconds){
+    var times = [0,0,0,0];
+    var tmpTime = seconds;
+    if (tmpTime >= (3600 * 24 )){//Total seconds in a day
+            var days = parseInt(tmpTime/(3600*24));
+            tmpTime = tmpTime % (3600 * 24);
+            times[0] = days;
+    }
+
+    if (tmpTime >= 3600){//Total seconds in an hours
+            var hours = parseInt(tmpTime/3600);
+            tmpTime = tmpTime % 3600;
+            times[1] = hours;
+    }
+
+    if (tmpTime >= 60){//Total seconds in a minute
+            var minutes = parseInt(tmpTime/60);
+            tmpTime = tmpTime % 60;
+            times[2] = minutes;
+    }
+
+    times[3] = tmpTime;
+    return times;
+}
+
+
+//This marks the begining of JQuery logic
+$(function () {
     var MINUTE = {name: "minute", nsecs: 60};
     var HOUR = {name: "hour", nsecs: MINUTE.nsecs * 60};
     var DAY = {name: "day", nsecs: HOUR.nsecs * 24};
@@ -102,12 +134,26 @@ $(function () {
         return false;
     });
 
-    $(".timeout-grace").click(function() {
+    $('body').on('click','.timeout-grace',function() {
         var $this = $(this);
+        period_times = getTimes($this.data('timeout'));
+        grace_times =  getTimes($this.data('grace'));
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        periodSlider.noUiSlider.set($this.data("timeout"))
-        graceSlider.noUiSlider.set($this.data("grace"))
+        $("#update-timeout-form #days").val(period_times[0]);
+        $("#update-timeout-form #hours").val(period_times[1]);
+        $("#update-timeout-form #minutes").val(period_times[2]);
+        $("#update-timeout-form #seconds").val(period_times[3]);
+
+        $("#update-timeout-form").attr("action", $this.data("url"));
+        $("#update-timeout-form #days1").val(grace_times[0]);
+        $("#update-timeout-form #hours1").val(grace_times[1]);
+        $("#update-timeout-form #minutes1").val(grace_times[2]);
+        $("#update-timeout-form #seconds1").val(grace_times[3]);
+
+
+        periodSlider.noUiSlider.set($this.data("timeout"));
+        graceSlider.noUiSlider.set($this.data("grace"));
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;

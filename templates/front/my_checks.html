@@ -126,34 +126,34 @@
                             Period
                         </span>
                         <span
-                            id="period-slider-value"
-                            class="update-timeout-value">
-                            1 day
+                            id="period-slider-value1"
+                            class="update-timeout-value1">
                         </span>
                     </div>
 
                     <div class="timeouts" id="period">
                         <div class="timeblock">
                             <label for="days">Days</label><br />
-                            <input id = "days" type="number" name="days" value = "0"   min="0" max="1000">
+                            <input id= "days" type="number" name="days" value = "0"   min="0" max="10000">
                         </div>
                         <div class="timeblock">
                             <label for="hours">Hours</label><br />
-                           <input id = "hours" type="number" name="hours" value = "0"  min="0" max="24">
+                           <input id= "hours" type="number" name="hours" value = "0"  min="0" max="23">
                         </div>
                         <div class="timeblock">
                             <label for="minutes">Minutes</label><br />
-                            <input id = "minutes" type="number" name="minutes" value = "0"  min="0" max="60">
+                            <input class= "minutes" type="number" name="minutes" value = "0"  min="0" max="59">
                         </div>
                         <div class="timeblock">
                             <label for="seconds">Seconds</label><br />
-                           <input id = "seconds" type="number" name="seconds" value = "0"  min="0" max="60">
+                           <input class = "seconds" type="number" name="seconds" value = "0"  min="0" max="59">
                         </div>
                         <br  style="clear: both;" />
                     </div>
                                         
-                    <div id="period-slider" style="display: none"></div> 
-
+                    <div id="period-slider" style="display: none "></div> 
+ 
+                    <br />
                     <div class="update-timeout-info text-center">
                         <span
                             class="update-timeout-label"
@@ -162,34 +162,34 @@
                             Grace Time
                         </span>
                         <span
-                            id="grace-slider-value"
-                            class="update-timeout-value">
-                            1 day
+                            id="grace-slider-value1"
+                            class="update-timeout-value1">
                         </span>
                     </div>
 
                     <div class="timeouts" id="grace">
                         <div class="timeblock">
                             <label for="days">Days</label><br />
-                            <input id = "days" type="number" name="days" value = "0" min="0" max="1000">
+                            <input id="days1" type="number" name="days1" value = "0" min="0" max="1000">
                         </div>
                         <div class="timeblock">
                             <label for="hours">Hours</label><br />
-                           <input id = "hours" type="number" name="hours"  value = "0"  min="0" max="24">
+                           <input id = "hours1" type="number" name="hours1"  value = "0"  min="0" max="23">
                         </div>
                         <div class="timeblock">
                             <label for="minutes">Minutes</label><br />
-                            <input id = "minutes" type="number" name="minutes"  value = "0"  min="0" max="60">
+                            <input id= "minutes1" type="number" name="minutes1"  value = "0"  min="0" max="59">
                         </div>
                         <div class="timeblock">
                             <label for="seconds">Seconds</label><br />
-                           <input id = "seconds" type="number" name="seconds"  value = "0"  min="0" max="60">
+                           <input  id= "seconds1" type="number" name="seconds1"  value = "0"  min="0" max="59">
                         </div>
                         <br  style="clear: both;" />
                     </div>   
 
                     <div id="grace-slider" style="display: none"></div> 
 
+                    <br />
                     <div class="update-timeout-terms">
                         <p>
                             <span>Period</span>
@@ -306,7 +306,6 @@
                     </div>
                     {% endwith %}
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
@@ -328,11 +327,37 @@
 <script src="{% static 'js/nouislider.min.js' %}"></script>
 <script src="{% static 'js/clipboard.min.js' %}"></script>
 <script src="{% static 'js/checks.js' %}"></script>
-<script src="{% static 'js/fox.js' %}"></script>
 <script type="text/javascript">
-     jQuery('.timeouts').foxholder({
-        demo: 2 //or other number of demo (1-15) you want to use
-      });
+
+    function timestring(d,h,m,s){
+        var ts = 0;
+
+        ts += (d>=0)? d * 3600 * 24: 0;
+        ts += (h>=0)? h * 3600:0;
+        ts += (m>0)? m * 60: 0;
+        ts += (s>0)? s:0;
+
+        return ts;
+    }
+
+    $(function(){
+        $('#period input').on('input',function(e){
+            var d = $('#period #days' ).val();
+            var h = $('#period #hours' ).val();
+            var m = $('#period #minutes' ).val();
+            var s = $('#period #seconds' ).val();
+            $('#update-timeout-timeout').val(timestring(d,h,m,s))
+        });
+
+        $('#grace input').on('input',function(e){
+            var d = $('#grace #days1' ).val();
+            var h = $('#grace #hours1' ).val();
+            var m = $('#grace #minutes1' ).val();
+            var s = $('#grace #seconds1' ).val();
+            
+            $('#update-timeout-grace').val(timestring(d,h,m,s))
+        });
+    });
 </script>
 {% endcompress %}
 {% endblock %}
