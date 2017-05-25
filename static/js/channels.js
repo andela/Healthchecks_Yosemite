@@ -1,6 +1,7 @@
 $(function() {
     var placeholders = {
         email: "address@example.org",
+        sms: "+[Country code][Phone Number]",
         webhook: "http://",
         slack: "https://hooks.slack.com/...",
         hipchat: "https://api.hipchat.com/...",

@@ -285,6 +285,7 @@ def channels(request):
         "page": "channels",
         "channels": channels,
         "num_checks": num_checks,
+        "sms": settings.TWILIO,
         "enable_pushbullet": settings.PUSHBULLET_CLIENT_ID is not None,
         "enable_pushover": settings.PUSHOVER_API_TOKEN is not None
     }

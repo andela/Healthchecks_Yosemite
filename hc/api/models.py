@@ -167,8 +167,11 @@ class Channel(models.Model):
 
     @property
     def transport(self):
-        if self.kind == "email":
-            return transports.Email(self)
+
+        if True:
+            return transports.Sms(self)
+        elif self.kind == "email":
+            return transports.Email5(self)
         elif self.kind == "webhook":
             return transports.Webhook(self)
         elif self.kind == "slack":
@@ -183,8 +186,7 @@ class Channel(models.Model):
             return transports.Pushbullet(self)
         elif self.kind == "po":
             return transports.Pushover(self)
-        elif self.kind == "sms":
-            return transports.SMS(self)
+        # elif self.kind == "sms":
         else:
             raise NotImplementedError("Unknown channel kind: %s" % self.kind)
 

@@ -92,6 +92,13 @@ class NotifyTestCase(BaseTestCase):
             "get", "http://bar", headers={"User-Agent": "healthchecks.io"},
             timeout=5)
 
+    def test_sms(self):
+        self._setup_data("sms", "+254724292982")
+        self.channel.notify(self.check)
+
+        n = Notification.objects.get()
+        self.assertEqual(n.error, "")
+
     def test_email(self):
         self._setup_data("email", "alice@example.org")
         self.channel.notify(self.check)
