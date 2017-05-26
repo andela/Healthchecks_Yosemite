@@ -36,11 +36,11 @@ pyparsing==2.2.0
 PySocks==1.6.7
 pytz==2017.2
 rcssmin==1.0.6
-requests==2.9.1
+requests==2.14.2
 rjsmin==1.0.12
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.3.2
-twilio==6.2.0
+twilio==6.3.0
 wcwidth==0.1.7
 whitenoise==3.3.0
