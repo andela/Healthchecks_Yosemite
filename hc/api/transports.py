@@ -4,8 +4,6 @@ from django.utils import timezone
 import json
 import requests
 from six.moves.urllib.parse import quote
-# from django_twilio.decorators import twilio_view
-# from twilio.rest.exceptions import TwilioRestException
 from twilio.rest import Client
 
 
@@ -65,22 +63,21 @@ class Email(Transport):
 
 
 class Sms(Transport):
-    # @twilio_view
     def notify(self, check):
-        print("Hurehhhhhh---------------")
         message = ('Hello, This is a notification sent by healthchecks.io : \
                     \n\nThe check "{}" has gone {}.'.format(
                     check.name_then_code(),
                     check.status.upper()
                     ))
 
-        from_ = '+15176180567'
-        TWILIO_ACCOUNT_SID = 'AC3c9529fdb8c34d0eb043c474dc1493bf'
-        TWILIO_AUTH_TOKEN = '0f6e24b279eb11e6142557a63490e4a9'
-        to = self.channel.value
+        from_ = settings.TWILIO_FROM
+        TWILIO_ACCOUNT_SID = settings.TWILIO_FROM
+        TWILIO_AUTH_TOKEN = settings.TWILIO_AUTH_TOKEN
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        for value in self.channel.value:
+            to = value
+            response = client.messages.create(body=message, to=to, from_=from_)
 
-        response = client.messages.create(body=message, to=to, from_=from_)
         if response.error_message is None:
             print("\nSMS Errors: None")
         else:
