@@ -24,7 +24,7 @@ DEFAULT_GRACE = td(hours=1)
 CHANNEL_KINDS = (("email", "Email"), ("webhook", "Webhook"),
                  ("hipchat", "HipChat"),
                  ("slack", "Slack"), ("pd", "PagerDuty"), ("po", "Pushover"),
-                 ("victorops", "VictorOps"), ("sms", "SMS"))
+                 ("victorops", "VictorOps"), ("sms", "Sms"))
 
 PO_PRIORITIES = {
     -2: "lowest",
@@ -167,11 +167,10 @@ class Channel(models.Model):
 
     @property
     def transport(self):
-
-        if True:
+        if self.kind == "sms":
             return transports.Sms(self)
         elif self.kind == "email":
-            return transports.Email5(self)
+            return transports.Email(self)
         elif self.kind == "webhook":
             return transports.Webhook(self)
         elif self.kind == "slack":
@@ -186,7 +185,6 @@ class Channel(models.Model):
             return transports.Pushbullet(self)
         elif self.kind == "po":
             return transports.Pushover(self)
-        # elif self.kind == "sms":
         else:
             raise NotImplementedError("Unknown channel kind: %s" % self.kind)
 
