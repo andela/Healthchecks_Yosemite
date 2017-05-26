@@ -6,7 +6,8 @@
 
 function getTimes(seconds){
     var times = [0,0,0,0];
-    var tmpTime = seconds;
+    var tmpTime = parseInt(seconds);
+
     if (tmpTime >= (3600 * 24 )){//Total seconds in a day
             var days = parseInt(tmpTime/(3600*24));
             tmpTime = tmpTime % (3600 * 24);

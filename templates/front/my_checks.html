@@ -236,7 +236,6 @@
         </form>
     </div>
 </div>
-
 <div id="show-usage-modal" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -342,18 +341,18 @@
 
     $(function(){
         $('#period input').on('input',function(e){
-            var d = $('#period #days' ).val();
-            var h = $('#period #hours' ).val();
-            var m = $('#period #minutes' ).val();
-            var s = $('#period #seconds' ).val();
+            var d = parseInt($('#period #days' ).val());
+            var h = parseInt($('#period #hours' ).val());
+            var m = parseInt($('#period #minutes' ).val());
+            var s = parseInt($('#period #seconds' ).val());
             $('#update-timeout-timeout').val(timestring(d,h,m,s))
         });
 
         $('#grace input').on('input',function(e){
-            var d = $('#grace #days1' ).val();
-            var h = $('#grace #hours1' ).val();
-            var m = $('#grace #minutes1' ).val();
-            var s = $('#grace #seconds1' ).val();
+            var d = parseInt($('#grace #days1' ).val());
+            var h = parseInt($('#grace #hours1' ).val());
+            var m = parseInt($('#grace #minutes1' ).val());
+            var s = parseInt($('#grace #seconds1' ).val());
             
             $('#update-timeout-grace').val(timestring(d,h,m,s))
         });
