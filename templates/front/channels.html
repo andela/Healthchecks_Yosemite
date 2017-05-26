@@ -34,7 +34,7 @@
             {% if ch.kind == "pd" %} PagerDuty {% endif %}
             {% if ch.kind == "po" %} Pushover {% endif %}
             {% if ch.kind == "victorops" %} VictorOps {% endif %}
-            {% if ch.kind == "sms" %} SMS {% endif %}
+            {% if ch.kind == "sms" %} Sms {% endif %}
             {% if ch.kind == "pushbullet" %} Pushbullet {% endif %}
             </td>
             <td class="value-cell">
@@ -45,8 +45,8 @@
                         <span class="channel-unconfirmed">(unconfirmed)</span>
                     {% endif %}
                 {% elif ch.kind == "sms" %}
-+                    <span class="preposition"> Phone_Number</span>
-+                    {{ ch.value }}
+                    <span class="preposition">to </span>
+                   {{ ch.value }}
                 {% elif ch.kind == "pd" %}
                     <span class="preposition">API key</span>
                     {{ ch.value }}
