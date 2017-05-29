@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Frequently Asked Questions - healthchecks.io{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+<h1>Frequently Asked Questions </h1>
+
+<h2>How do I setup healthchecks?</h2>
+<p>
+    Follow the instructions in the README.md to setup your healthchecks
+</p>
+
+<h2>Will healthchecks be paid for at some time?</h2>
+<p>
+    Healthchecks will always be free. Free as in freedom.
+</p>
+
+<h2>How do we reset passwords?</h2>
+<p>
+    For lost passwords, you can click on password reset to get a unique link to reset your password.
+</p>
+</div>
+
+{% load embed_video_tags %}
+{% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '600x300' %}
+{% endblock %}
