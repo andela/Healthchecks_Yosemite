@@ -1,6 +1,13 @@
 # Status
 
-[![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg?branch=master)](https://travis-ci.org/andela/Healthchecks_Yosemite)
+[![Build Status](https://travis-ci.org/andela/Healthchecks_Yosemite.svg)](https://travis-ci.org/andela/Healthchecks_Yosemite)
+[![Coverage Status](https://coveralls.io/repos/github/andela/Healthchecks_Yosemite/badge.svg)](https://coveralls.io/github/andela/Healthchecks_Yosemite)
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/848012f6438a4c948956282e91b588a0/badge.svg)](https://www.quantifiedcode.com/app/project/848012f6438a4c948956282e91b588a0)
+
+
+
+
+
 
 ## healthchecks
 
@@ -11,6 +18,8 @@
 ![Screenshot of Period/Grace dialog](/stuff/screenshots/period_grace.png?raw=true "Period/Grace Dialog")
 
 ![Screenshot of Channels page](/stuff/screenshots/channels.png?raw=true "Channels Page")
+
+
 
 healthchecks is a watchdog for your cron jobs. It's a web server that listens for pings from your cron jobs, plus a web interface.
 
@@ -198,3 +207,4 @@ To enable Pushover integration, you will need to:
   subscription type
 * add the application token and subscription URL to `hc/local_settings.py`, as
   `PUSHOVER_API_TOKEN` and `PUSHOVER_SUBSCRIPTION_URL`
+  .
