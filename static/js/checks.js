@@ -5,28 +5,41 @@
 //It returns a four elements array which contains number of days, Hours, minutes and seconds from index 0 to 3 respectively
 
 function getTimes(seconds){
-    var times = [0,0,0,0];
+    var times = [0,0,0,0,0,0];
     var tmpTime = parseInt(seconds);
+
+    if (tmpTime >= (3600 * 24 * 365 )){//Total seconds in a year
+            var years= parseInt(tmpTime/(3600*24*365));
+            tmpTime = tmpTime % (3600 * 24 * 365);
+            times[0] = years;
+    }
+
+    if (tmpTime >= (3600 * 24 * 31 )){//Total seconds in a month
+            var months = parseInt(tmpTime/(3600*24 * 31));
+            tmpTime = tmpTime % (3600 * 24 * 31);
+            times[1] = months;
+    }
+
 
     if (tmpTime >= (3600 * 24 )){//Total seconds in a day
             var days = parseInt(tmpTime/(3600*24));
             tmpTime = tmpTime % (3600 * 24);
-            times[0] = days;
+            times[2] = days;
     }
 
     if (tmpTime >= 3600){//Total seconds in an hours
             var hours = parseInt(tmpTime/3600);
             tmpTime = tmpTime % 3600;
-            times[1] = hours;
+            times[3] = hours;
     }
 
     if (tmpTime >= 60){//Total seconds in a minute
             var minutes = parseInt(tmpTime/60);
             tmpTime = tmpTime % 60;
-            times[2] = minutes;
+            times[4] = minutes;
     }
 
-    times[3] = tmpTime;
+    times[5] = tmpTime;
     return times;
 }
 
@@ -141,16 +154,22 @@ $(function () {
         grace_times =  getTimes($this.data('grace'));
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        $("#update-timeout-form #days").val(period_times[0]);
-        $("#update-timeout-form #hours").val(period_times[1]);
-        $("#update-timeout-form #minutes").val(period_times[2]);
-        $("#update-timeout-form #seconds").val(period_times[3]);
+        $("#update-timeout-form #years").val(period_times[0]);
+        $("#update-timeout-form #months").val(period_times[1]);
+        $("#update-timeout-form #days").val(period_times[2]);
+        $("#update-timeout-form #hours").val(period_times[3]);
+        $("#update-timeout-form #minutes").val(period_times[4]);
+        $("#update-timeout-form #seconds").val(period_times[5]);
+
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        $("#update-timeout-form #days1").val(grace_times[0]);
-        $("#update-timeout-form #hours1").val(grace_times[1]);
-        $("#update-timeout-form #minutes1").val(grace_times[2]);
-        $("#update-timeout-form #seconds1").val(grace_times[3]);
+
+        $("#update-timeout-form #years1").val(period_times[0]);
+        $("#update-timeout-form #months1").val(period_times[1]);
+        $("#update-timeout-form #days1").val(grace_times[2]);
+        $("#update-timeout-form #hours1").val(grace_times[3]);
+        $("#update-timeout-form #minutes1").val(grace_times[4]);
+        $("#update-timeout-form #seconds1").val(grace_times[5]);
 
 
         periodSlider.noUiSlider.set($this.data("timeout"));

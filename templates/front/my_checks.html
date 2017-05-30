@@ -133,8 +133,18 @@
 
                     <div class="timeouts" id="period">
                         <div class="timeblock">
+                            <label for="years">Years</label><br />
+                            <input id="years" type="number" name="years" value = "0" min="0" max="5">
+                        </div>
+
+                          <div class="timeblock">
+                            <label for="months">Months</label><br />
+                            <input id="months" type="number" name="months" value = "0" min="0" max="12">
+                        </div>
+
+                        <div class="timeblock">
                             <label for="days">Days</label><br />
-                            <input id= "days" type="number" name="days" value = "0"   min="0" max="10000">
+                            <input id= "days" type="number" name="days" value = "0"   min="0" max="31">
                         </div>
                         <div class="timeblock">
                             <label for="hours">Hours</label><br />
@@ -169,19 +179,29 @@
 
                     <div class="timeouts" id="grace">
                         <div class="timeblock">
+                            <label for="years1">Years</label><br />
+                            <input id="years1" type="number" name="years1" value = "0" min="0" max="5">
+                        </div>
+
+                          <div class="timeblock">
+                            <label for="months1">Months</label><br />
+                            <input id="months1" type="number" name="months1" value = "0" min="0" max="12">
+                        </div>
+
+                        <div class="timeblock">
                             <label for="days">Days</label><br />
-                            <input id="days1" type="number" name="days1" value = "0" min="0" max="1000">
+                            <input id="days1" type="number" name="days1" value = "0" min="0" max="31">
                         </div>
                         <div class="timeblock">
-                            <label for="hours">Hours</label><br />
+                            <label for="hours1">Hours</label><br />
                            <input id = "hours1" type="number" name="hours1"  value = "0"  min="0" max="23">
                         </div>
                         <div class="timeblock">
-                            <label for="minutes">Minutes</label><br />
+                            <label for="minutes1">Minutes</label><br />
                             <input id= "minutes1" type="number" name="minutes1"  value = "0"  min="0" max="59">
                         </div>
                         <div class="timeblock">
-                            <label for="seconds">Seconds</label><br />
+                            <label for="seconds1">Seconds</label><br />
                            <input  id= "seconds1" type="number" name="seconds1"  value = "0"  min="0" max="59">
                         </div>
                         <br  style="clear: both;" />
@@ -328,12 +348,14 @@
 <script src="{% static 'js/checks.js' %}"></script>
 <script type="text/javascript">
 
-    function timestring(d,h,m,s){
+    function timestring(y,m,d,h,m,s){
         var ts = 0;
 
+        ts += (y>=0)? y * 3600 * 24 * 365 : 0;
+        ts += (m>=0)? m * 3600 * 24 * 31: 0;
         ts += (d>=0)? d * 3600 * 24: 0;
         ts += (h>=0)? h * 3600:0;
-        ts += (m>0)? m * 60: 0;
+        ts += (m>0)? m * 60: 0; 
         ts += (s>0)? s:0;
 
         return ts;
@@ -341,20 +363,24 @@
 
     $(function(){
         $('#period input').on('input',function(e){
+            var y = parseInt($('#period #years' ).val());
+            var m = parseInt($('#period #months' ).val());
             var d = parseInt($('#period #days' ).val());
             var h = parseInt($('#period #hours' ).val());
             var m = parseInt($('#period #minutes' ).val());
             var s = parseInt($('#period #seconds' ).val());
-            $('#update-timeout-timeout').val(timestring(d,h,m,s))
+            $('#update-timeout-timeout').val(timestring(y,m,d,h,m,s))
         });
 
         $('#grace input').on('input',function(e){
+            var y = parseInt($('#grace #years1' ).val());
+            var m = parseInt($('#grace #months1' ).val());
             var d = parseInt($('#grace #days1' ).val());
             var h = parseInt($('#grace #hours1' ).val());
             var m = parseInt($('#grace #minutes1' ).val());
             var s = parseInt($('#grace #seconds1' ).val());
             
-            $('#update-timeout-grace').val(timestring(d,h,m,s))
+            $('#update-timeout-grace').val(timestring(y,m,d,h,m,s))
         });
     });
 </script>
