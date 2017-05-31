@@ -103,7 +103,6 @@ def docs(request):
 
     return render(request, "front/docs.html", ctx)
 
-
 def docs_api(request):
     ctx = {
         "page": "docs",
@@ -117,7 +116,7 @@ def docs_api(request):
     return render(request, "front/docs_api.html", ctx)
 
 
-def about(request):
+def about(request): 
     return render(request, "front/about.html", {"page": "about"})
 
 
@@ -146,6 +145,23 @@ def update_name(request, code):
     if form.is_valid():
         check.name = form.cleaned_data["name"]
         check.tags = form.cleaned_data["tags"]
+        check.save()
+
+    return redirect("hc-checks")
+
+
+@login_required
+@uuid_or_400
+def update_priority(request, code):
+    assert request.method == "POST"
+
+    check = get_object_or_404(Check, code=code)
+    if check.user_id != request.team.user.id:
+        return HttpResponseForbidden()
+
+    form = NameTagsForm(request.POST)
+    if form.is_valid():
+        check.priority = form.cleaned_data["priority"]
         check.save()
 
     return redirect("hc-checks")

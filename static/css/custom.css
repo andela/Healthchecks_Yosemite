@@ -1,0 +1,56 @@
+.timeouts{
+  margin:5px auto; 
+  padding: 5px 0;
+  border: 1px dotted green;
+  background-color: #f1f1f1;
+     border-radius:5px;
+   -moz-border-radius:5px;
+   -webkit-border-radius:5px;
+}
+
+.timeouts input {/* Rounded corners*/
+   border-radius:5px;
+   -moz-border-radius:5px;
+   -webkit-border-radius:5px;
+}
+
+
+.timeouts .timeblock {
+    float: left;
+}
+
+.timeouts .timeblock input {
+    margin:0 5px;
+    padding: 5px;
+    width: 80px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#period {
+    border: 1px dotted green;
+}
+
+#period  input {
+    border: 1px solid green;
+    color: green;
+}
+
+
+#grace {
+    border: 1px dotted  orange;
+}
+
+#grace  input {
+    border: 1px solid  orange;
+    color: orange;
+}
+
+.timeouts .timeblock label{
+    margin:1px 5px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: normal;
+    color: gray;
+}
