@@ -46,10 +46,12 @@ def my_checks(request):
                 down_tags.add(tag)
             elif check.in_grace_period():
                 grace_tags.add(tag)
+    num_failed_jobs = request.session.get("num_failed_jobs")
 
     ctx = {
         "page": "checks",
         "checks": checks,
+        "num_failed_jobs": num_failed_jobs,
         "now": timezone.now(),
         "tags": counter.most_common(),
         "down_tags": down_tags,
@@ -62,27 +64,16 @@ def my_checks(request):
 
 @login_required
 def failed_jobs(request):
-    q = Check.objects.filter(user=request.team.user).order_by("created")
-    checks = list(q)
-
-    counter = Counter()
-    down_tags = set()
-    for check in checks:
+    q = Check.objects.all().order_by("created")
+    checks = []
+    for check in q:
         status = check.get_status()
-        for tag in check.tags_list():
-            if tag == "":
-                continue
-            counter[tag] += 1
-
-            if status == "down":
-                return down_tags.add(tag)
+        if status == "down":
+            checks.append(check)
+    request.session["num_failed_jobs"] = len(checks)
     ctx = {
-        "page": "checks",
+        "page": "failed_jobs",
         "checks": checks,
-        "failed_jobs": failed_jobs,
-        "now": timezone.now(),
-        "tags": counter.most_common(),
-        "down_tags": down_tags,
         "ping_endpoint": settings.PING_ENDPOINT
     }
     return render(request, "front/failed_jobs.html", ctx)
