@@ -60,6 +60,34 @@ def my_checks(request):
     return render(request, "front/my_checks.html", ctx)
 
 
+@login_required
+def failed_jobs(request):
+    q = Check.objects.filter(user=request.team.user).order_by("created")
+    checks = list(q)
+
+    counter = Counter()
+    down_tags = set()
+    for check in checks:
+        status = check.get_status()
+        for tag in check.tags_list():
+            if tag == "":
+                continue
+            counter[tag] += 1
+
+            if status == "down":
+                return down_tags.add(tag)
+    ctx = {
+        "page": "checks",
+        "checks": checks,
+        "failed_jobs": failed_jobs,
+        "now": timezone.now(),
+        "tags": counter.most_common(),
+        "down_tags": down_tags,
+        "ping_endpoint": settings.PING_ENDPOINT
+    }
+    return render(request, "front/failed_jobs.html", ctx)
+
+
 def _welcome_check(request):
     check = None
     if "welcome_code" in request.session:
@@ -276,7 +304,8 @@ def channels(request):
         channel.checks = new_checks
         return redirect("hc-channels")
 
-    channels = Channel.objects.filter(user=request.team.user).order_by("created")
+    channels = Channel.objects.filter(
+        user=request.team.user).order_by("created")
     channels = channels.annotate(n_checks=Count("checks"))
 
     num_checks = Check.objects.filter(user=request.team.user).count()
