@@ -17,6 +17,10 @@ class NameTagsForm(forms.Form):
         return " ".join(l)
 
 
+class PriorityForm(forms.Form):
+    priority = forms.IntegerField(min_value=-2,max_value=2)
+
+
 class TimeoutForm(forms.Form):
 
     #Default settings
