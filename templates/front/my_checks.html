@@ -382,6 +382,21 @@
             
             $('#update-timeout-grace').val(timestring(y,m,d,h,m,s))
         });
+
+        $('.priority').on('change', function(){
+            //Obtain a specific check uri for this check
+            var uri = $(this).data('url') ;
+            var pr = $(this).val();
+            var token = $('input[name="csrfmiddlewaretoken"]').val();
+            
+            //Execute the post request to update the priority of this check
+            $.post( uri, { priority: pr, csrfmiddlewaretoken: token }).done(function( data ) {
+                    //Upon success posting, refresh the page to effect the sorting of jobs
+                    location.reload(true);
+            });
+
+        });
+
     });
 </script>
 {% endcompress %}
