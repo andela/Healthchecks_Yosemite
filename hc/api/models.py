@@ -18,6 +18,7 @@ STATUSES = (
     ("down", "Down"),
     ("new", "New"),
     ("paused", "Paused")
+    ("early", "early")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -36,7 +37,6 @@ PO_PRIORITIES = {
 
 
 class Check(models.Model):
-
     class Meta:
         # sendalerts command will query using these
         index_together = ["status", "user", "alert_after"]
@@ -130,6 +130,15 @@ class Check(models.Model):
 
         return result
 
+    def ping_is_early(self):
+        pings = Ping.objects.filter(owner=self).order_by('-created')[:2]
+        reverse_grace_period = self.timeout - self.grace
+        if len(pings) == 2:
+            ping_difference = pings[0].created - pings[1].created
+            if reverse_grace_period > ping_difference:
+                return True
+        return False
+
 
 class Ping(models.Model):
     n = models.IntegerField(null=True)
@@ -195,7 +204,10 @@ class Channel(models.Model):
 
         if error != "no-op":
             n = Notification(owner=check, channel=self)
-            n.check_status = check.status
+            if check.status.lower() == "up" and check.ping_is_early:
+                 n.check_status = "early"
+            else:
+                 n.check_status = check.status
             n.error = error
             n.save()
 
