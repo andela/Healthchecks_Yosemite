@@ -18,7 +18,6 @@ STATUSES = (
     ("down", "Down"),
     ("new", "New"),
     ("paused", "Paused")
-    ("early", "early")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -205,9 +204,9 @@ class Channel(models.Model):
         if error != "no-op":
             n = Notification(owner=check, channel=self)
             if check.status.lower() == "up" and check.ping_is_early:
-                 n.check_status = "early"
+                n.check_status = "early"
             else:
-                 n.check_status = check.status
+                n.check_status = check.status
             n.error = error
             n.save()
 
