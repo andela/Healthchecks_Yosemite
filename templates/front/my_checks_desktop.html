@@ -55,22 +55,22 @@
                 data-url="{% url 'hc-update-timeout' check.code %}"
                 data-timeout="{{ check.timeout.total_seconds }}"
                 data-grace="{{ check.grace.total_seconds }}"
-                class="timeout-grace">
-                {% if check.nag != None%}
+                {% if check.nag != None %}
                 data-nag="{{ check.nag.total_seconds }}"
                 {% endif %}
+                class="timeout-grace">
                 {{ check.timeout|hc_duration }}
                 <br />
                 <span class="checks-subline">
                 {{ check.grace|hc_duration }}
-                </span>
-            </span>
-            <br />
-                <span class="checks-subline">
-                {% if check.nag %}
+                <br />
+                {% if check.nag != None %}
                 {{ check.nag|hc_duration }}
                 {% endif %}
                 </span>
+            </span>
+            <br />
+
         </td>
         <td>
         {% if check.last_ping %}

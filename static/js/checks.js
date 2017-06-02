@@ -86,6 +86,8 @@ $(function () {
         $("#grace-slider-value").text(secsToText(rounded));
         $("#update-timeout-grace").val(rounded);
     });
+
+    
     var nagSlider = document.getElementById("nag-slider");
     noUiSlider.create(nagSlider, {
         start: [20],
