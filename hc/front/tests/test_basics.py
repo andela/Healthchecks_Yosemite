@@ -20,3 +20,7 @@ class BasicsTestCase(TestCase):
         assert r.status_code == 200
         assert code != "x"
         assert Check.objects.filter(code=code).exists()
+    
+    def test_it_shows_faqs(self):
+        r = self.client.get("/faq/")
+        self.assertContains(r, "Get Notified", status_code=200)

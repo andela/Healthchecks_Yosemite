@@ -120,6 +120,13 @@ def docs_api(request):
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
 
+# faq member
+def faq(request):
+    return render(request, "front/faq.html", {"page": "faq"})
+
+# tutorials member
+def tutorials(request):
+    return render(request, "front/tutorials.html", {"page": "faq"})
 
 @login_required
 def add_check(request):
