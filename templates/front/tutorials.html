@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+        {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}FAQs - healthchecks.io{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1> How to Video Tutorials</h1>
+    </div>
+
+    <div class="col-sm-2">
+        <ul class="docs-nav">
+            <li class="active">
+                <a href="{% url 'hc-faq' %}"> Frequently Asked Questions </a>
+            </li>
+
+            <li class="active">
+                <a href="{% url 'hc-tutorials' %}"> Video Tutorials </a>
+            </li>
+
+        </ul>
+    </div>
+
+<!--column one-->
+    <div class="col-sm-5">
+        <h2> Welcome to healthchecks </h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+
+        <h2> Getting Started </h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+
+        <h2> Adding checks </h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+            
+            
+    </div>
+
+<!--Column two-->
+
+    <div class="col-sm-5">
+        <h2> Adding more integrations </h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+
+        <h2> Adding multiple emails to healthchecks </h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+
+        <h2> How to customise pings.</h2>
+        <div class="panel-group" >
+            <div class="panel panel-default">
+            <div class="panel-body">
+            
+                {% load embed_video_tags %}
+                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            </div>
+            </div> 
+        </div>
+            
+            
+    </div>
+    
+</div>
+    
+{%endblock%}
+
+    
+    </body>
+</html>
