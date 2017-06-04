@@ -86,8 +86,7 @@ $(function () {
         $("#grace-slider-value").text(secsToText(rounded));
         $("#update-timeout-grace").val(rounded);
     });
-
-
+    
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".my-checks-name").click(function() {
