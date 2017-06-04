@@ -73,11 +73,12 @@ class Sms(Transport):
         from_ = settings.TWILIO_FROM
         TWILIO_ACCOUNT_SID = settings.TWILIO_FROM
         TWILIO_AUTH_TOKEN = settings.TWILIO_AUTH_TOKEN
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-        for value in self.channel.value:
-            to = value
-            response = client.messages.create(body=message, to=to, from_=from_)
-
+        if check.status.upper() == "DOWN":
+            client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+            for value in self.channel.value:
+                to = value
+                response = client.messages.create(body=message, to=to, from_=from_)
+                return
         if response.error_message is None:
             print("\nSMS Errors: None")
         else:
