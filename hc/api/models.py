@@ -52,6 +52,7 @@ class Check(models.Model):
     last_ping = models.DateTimeField(null=True, blank=True)
     alert_after = models.DateTimeField(null=True, blank=True, editable=False)
     status = models.CharField(max_length=6, choices=STATUSES, default="new")
+    priority = models.IntegerField(default=0)
 
     def name_then_code(self):
         if self.name:
@@ -90,6 +91,10 @@ class Check(models.Model):
             return "up"
 
         return "down"
+
+
+    def get_priority(self):
+        return self.priority
 
     def in_grace_period(self):
         if self.status in ("new", "paused"):
