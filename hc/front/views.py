@@ -124,6 +124,10 @@ def about(request):
 def faq(request):
     return render(request, "front/faq.html", {"page": "faq"})
 
+# tutorials member
+def tutorials(request):
+    return render(request, "front/tutorials.html", {"page": "faq"})
+
 @login_required
 def add_check(request):
     assert request.method == "POST"
