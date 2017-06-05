@@ -30,11 +30,15 @@ def pairwise(iterable):
 @login_required
 def my_checks(request):
     q = Check.objects.filter(user=request.team.user).order_by("created")
-    checks = list(q)
+    checks = []
+    for check in q :
+        status = check.get_status()
+        if status != "down":
+            checks.append(check)
 
     counter = Counter()
     down_tags, grace_tags = set(), set()
-    for check in checks:
+    for check in q:
         status = check.get_status()
         for tag in check.tags_list():
             if tag == "":
