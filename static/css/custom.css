@@ -1,0 +1,32 @@
+.timeouts{
+  margin:5px auto;
+  padding: 5px 0;
+  border: 1px dotted green;
+  background-color: #f1f1f1;
+ }
+
+ .timeouts .timeblock {
+  float: left;
+ }
+
+ .timeouts .timeblock input {
+    margin:0 5px;
+    padding: 5px;
+    width: 80px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid green;
+ }
+
+
+ .timeouts .timeblock label{
+    margin:1px 5px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: normal;
+    color: gray;
+ }
+
+#nag-slider {
+    margin: 20px 50px 110px 50px;
