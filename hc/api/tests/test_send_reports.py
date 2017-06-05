@@ -54,4 +54,4 @@ class SendReportsTestCase(BaseTestCase):
         check.save()
 
         result = Command().handle_one_run()
-        self.assertEqual(result, 1)
+        self.assertEqual(result, 0)
