@@ -30,11 +30,15 @@ def pairwise(iterable):
 @login_required
 def my_checks(request):
     q = Check.objects.filter(user=request.team.user).order_by("created")
-    checks = list(q)
+    checks = []
+    for check in q :
+        status = check.get_status()
+        if status != "down":
+            checks.append(check)
 
     counter = Counter()
     down_tags, grace_tags = set(), set()
-    for check in checks:
+    for check in q:
         status = check.get_status()
         for tag in check.tags_list():
             if tag == "":
@@ -46,10 +50,12 @@ def my_checks(request):
                 down_tags.add(tag)
             elif check.in_grace_period():
                 grace_tags.add(tag)
+    num_failed_jobs = request.session.get("num_failed_jobs")
 
     ctx = {
         "page": "checks",
         "checks": checks,
+        "num_failed_jobs": num_failed_jobs,
         "now": timezone.now(),
         "tags": counter.most_common(),
         "down_tags": down_tags,
@@ -58,6 +64,23 @@ def my_checks(request):
     }
 
     return render(request, "front/my_checks.html", ctx)
+
+
+@login_required
+def failed_jobs(request):
+    q = Check.objects.all().order_by("created")
+    checks = []
+    for check in q:
+        status = check.get_status()
+        if status == "down":
+            checks.append(check)
+    request.session["num_failed_jobs"] = len(checks)
+    ctx = {
+        "page": "failed_jobs",
+        "checks": checks,
+        "ping_endpoint": settings.PING_ENDPOINT
+    }
+    return render(request, "front/failed_jobs.html", ctx)
 
 
 def _welcome_check(request):
@@ -276,7 +299,8 @@ def channels(request):
         channel.checks = new_checks
         return redirect("hc-channels")
 
-    channels = Channel.objects.filter(user=request.team.user).order_by("created")
+    channels = Channel.objects.filter(
+        user=request.team.user).order_by("created")
     channels = channels.annotate(n_checks=Count("checks"))
 
     num_checks = Check.objects.filter(user=request.team.user).count()
