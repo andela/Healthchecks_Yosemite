@@ -16,6 +16,16 @@ class AddChannelTestCase(BaseTestCase):
         self.assertRedirects(r, "/integrations/")
         assert Channel.objects.count() == 1
 
+    def test_it_adds_sms(self):
+        url = "/integrations/add/"
+        form = {"kind": "sms", "value": "+254724292982"}
+
+        self.client.login(username="alice@example.org", password="password")
+        r = self.client.post(url, form)
+
+        self.assertRedirects(r, "/integrations/")
+        assert Channel.objects.count() == 1
+
     def test_it_trims_whitespace(self):
         """ Leading and trailing whitespace should get trimmed. """
 
@@ -62,4 +72,3 @@ class AddChannelTestCase(BaseTestCase):
             url = "/integrations/add_{}/".format(kind)
             response = self.client.get(url)
             assert response.status_code == 404
-
