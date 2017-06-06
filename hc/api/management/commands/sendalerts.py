@@ -56,6 +56,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("sendalerts is now running")
+        Check.update_nag
 
         ticks = 0
         while True:

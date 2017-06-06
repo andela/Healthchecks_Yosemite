@@ -161,11 +161,8 @@ $(function () {
         $("#update-timeout-form #minutes").val(period_times[4]);
         $("#update-timeout-form #seconds").val(period_times[5]);
 
-
-        $("#update-timeout-form").attr("action", $this.data("url"));
-
-        $("#update-timeout-form #years1").val(period_times[0]);
-        $("#update-timeout-form #months1").val(period_times[1]);
+        $("#update-timeout-form #years1").val(grace_times[0]);
+        $("#update-timeout-form #months1").val(grace_times[1]);
         $("#update-timeout-form #days1").val(grace_times[2]);
         $("#update-timeout-form #hours1").val(grace_times[3]);
         $("#update-timeout-form #minutes1").val(grace_times[4]);

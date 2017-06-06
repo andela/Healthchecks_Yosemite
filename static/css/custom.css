@@ -1,5 +1,5 @@
 .timeouts{
-  margin:5px auto; 
+  margin:5px auto;
   padding: 5px 0;
   border: 1px dotted green;
   background-color: #f1f1f1;
@@ -32,21 +32,28 @@
     border: 1px dotted green;
 }
 
-#period  input {
+#period input {
     border: 1px solid green;
     color: green;
 }
-
 
 #grace {
     border: 1px dotted  orange;
 }
 
-#grace  input {
+#grace input {
     border: 1px solid  orange;
     color: orange;
 }
 
+#nag {
+    border: 1px dotted  yellow;
+}
+
+#nag input {
+    border: 1px solid  yellow;
+    color: yellow;
+}
 .timeouts .timeblock label{
     margin:1px 5px;
     text-align: center;

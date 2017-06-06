@@ -152,17 +152,17 @@
                         </div>
                         <div class="timeblock">
                             <label for="minutes">Minutes</label><br />
-                            <input class= "minutes" type="number" name="minutes" value = "0"  min="0" max="59">
+                            <input id= "minutes" type="number" name="minutes" value = "0"  min="0" max="59">
                         </div>
                         <div class="timeblock">
                             <label for="seconds">Seconds</label><br />
-                           <input class = "seconds" type="number" name="seconds" value = "0"  min="0" max="59">
+                           <input id = "seconds" type="number" name="seconds" value = "0"  min="0" max="59">
                         </div>
                         <br  style="clear: both;" />
                     </div>
-                                        
-                    <div id="period-slider" style="display: none "></div> 
- 
+
+                    <div id="period-slider" style="display: none "></div>
+
                     <br />
                     <div class="update-timeout-info text-center">
                         <span
@@ -205,9 +205,9 @@
                            <input  id= "seconds1" type="number" name="seconds1"  value = "0"  min="0" max="59">
                         </div>
                         <br  style="clear: both;" />
-                    </div>   
+                    </div>
 
-                    <div id="grace-slider" style="display: none"></div> 
+                    <div id="grace-slider" style="display: none"></div>
 
                     <br />
                     <div class="update-timeout-terms">
@@ -355,7 +355,7 @@
         ts += (m>=0)? m * 3600 * 24 * 31: 0;
         ts += (d>=0)? d * 3600 * 24: 0;
         ts += (h>=0)? h * 3600:0;
-        ts += (m>0)? m * 60: 0; 
+        ts += (m>0)? m * 60: 0;
         ts += (s>0)? s:0;
 
         return ts;
@@ -379,7 +379,7 @@
             var h = parseInt($('#grace #hours1' ).val());
             var m = parseInt($('#grace #minutes1' ).val());
             var s = parseInt($('#grace #seconds1' ).val());
-            
+
             $('#update-timeout-grace').val(timestring(y,m,d,h,m,s))
         });
     });

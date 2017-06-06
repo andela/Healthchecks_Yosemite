@@ -25,9 +25,10 @@ class TimeoutForm(forms.Form):
 
     # NOTE : i month has ~ 2592000 seconds
     # 186624000 seconds ~ 6years
-    
+
     timeout = forms.IntegerField(min_value=1, max_value=186624000)
     grace = forms.IntegerField(min_value=1, max_value=186624000)
+    nag = forms.IntegerField(min_value=1, max_value=7776000)
 
 
 class AddChannelForm(forms.ModelForm):
