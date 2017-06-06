@@ -16,7 +16,7 @@ from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
-                            TimeoutForm)
+                            PriorityForm,TimeoutForm)
 
 
 # from itertools recipes:
@@ -29,7 +29,7 @@ def pairwise(iterable):
 
 @login_required
 def my_checks(request):
-    q = Check.objects.filter(user=request.team.user).order_by("created")
+    q = Check.objects.filter(user=request.team.user).order_by("priority").reverse()
     checks = list(q)
 
     counter = Counter()
@@ -103,7 +103,6 @@ def docs(request):
 
     return render(request, "front/docs.html", ctx)
 
-
 def docs_api(request):
     ctx = {
         "page": "docs",
@@ -117,7 +116,7 @@ def docs_api(request):
     return render(request, "front/docs_api.html", ctx)
 
 
-def about(request):
+def about(request): 
     return render(request, "front/about.html", {"page": "about"})
 
 
@@ -149,6 +148,24 @@ def update_name(request, code):
         check.save()
 
     return redirect("hc-checks")
+
+ 
+@login_required
+@uuid_or_400
+def update_priority(request, code):
+    assert request.method == "POST"
+
+    check = get_object_or_404(Check, code=code)
+    if check.user_id != request.team.user.id:
+        return HttpResponseForbidden()
+
+    form = PriorityForm(request.POST)
+    if form.is_valid():
+        check.priority = form.cleaned_data["priority"]
+        check.save()
+
+    return redirect("hc-checks")
+
 
 
 @login_required
