@@ -1,118 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
-    </head>
-    <body>
-
-        {% extends "base.html" %}
+{% extends "base.html" %}
 {% load staticfiles %}
+ {% load embed_video_tags %}
 
 {% block title %}FAQs - healthchecks.io{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
-        <h1> How to Video Tutorials</h1>
+        <h1> Welcome To The Help Center</h1>
     </div>
 
     <div class="col-sm-2">
         <ul class="docs-nav">
-            <li class="active">
+            <li>
                 <a href="{% url 'hc-faq' %}"> Frequently Asked Questions </a>
             </li>
 
             <li class="active">
-                <a href="{% url 'hc-tutorials' %}"> Video Tutorials </a>
+                <a href="{% url 'hc-tutorials' %}"> Tutorials </a>
             </li>
-
         </ul>
     </div>
 
-<!--column one-->
-    <div class="col-sm-5">
-        <h2> Welcome to healthchecks </h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
-            </div>
-            </div> 
-        </div>
+    <div class="col-sm-10">
+        <h2> Tutorials </h2>
 
-        <h2> Getting Started </h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+        <div class="panel-group" id="accordion">
+            <div class="faqHeader">
+                <h3> General questions </h3>
             </div>
-            </div> 
-        </div>
 
-        <h2> Adding checks </h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
+            <div class="panel panel-default accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a>How do you create a check? (Video available)</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ul>
+                            <li> Log into your account</li>
+                            <li> Click on add check. A check will be created</li>
+                            <li> Click on the period to activate a modal</li>
+                            <li> Set the timeout period and grace period to your prefered interval</li>
+                            <li>save.</li>
+                        </ul>
+
+                        {% video 'https://youtu.be/uFady3zAyK8' '600x300' %}
+                    </div>
+                </div>
             </div>
-            </div> 
+            <div class="panel panel-default accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen"> 
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a>How to delete a check? (Video available)</a>
+                    </h4>
+                </div>
+                <div id="collapseTen" class="panel-collapse collapse">
+                    <div class="panel-body">
+                       <ul>
+                            <li> Log into your account</li>
+                            <li> Click on the settings icon. A dropdown will appear</li>
+                            <li> Click remove. A modal will pop up warning you that you can't undo changes</li>
+                            <li> click on remove.You check will be removed</li>
+                            <li>save.</li>
+                        </ul>
+                        {% video 'https://youtu.be/mAJ4U9bFryk' '600x300' %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a>Can you change the name of a check (Video available)</a>
+                    </h4>
+                </div>
+                <div id="collapseEleven" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            <li> once you have created a check, its default name is will be unnamed</li>
+                            <li> click on unnamed. A modal will pop up and you can fill a friendly name</li>
+                            <li> Click remove. A modal will pop up warning you that you can't undo changes</li>
+                            <li> Optionally, you can assign tags for easy filtering. Separate multiple tags with spaces.</li>
+                            <li>click save. Your check would be renamed </li>
+                        </ul>
+
+                        {% video 'https://youtu.be/irlbjU3h1Mo' '600x300' %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a>Can healthchecks send alerts to multiple email addresses?(Video available)</a>
+                    </h4>
+                </div>
+                <div id="collapseTwelve" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>Yes You Can.</p>
+                        <ul>
+                            <li> Scroll to the top of the page and click on the Integrations tab</li>
+                            <li> You will be redirected to the Integrations page</li>
+                            <li> Here you will find a list of channels you can use to recieve notifications.</li>
+                            <li> Scroll down to email and click on Add Integration</li>
+                            <li> After entering an email address, healthchecks.io will send out a confirmation link. Only confirmed addresses will receive notifications. </li>
+                        </ul>
+
+                        {% video 'https://youtu.be/8noKy_GBwKs' '600x300' %}
+                    </div>
+                </div>
+            </div>
         </div>
-            
-            
     </div>
-
-<!--Column two-->
-
-    <div class="col-sm-5">
-        <h2> Adding more integrations </h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
-            </div>
-            </div> 
-        </div>
-
-        <h2> Adding multiple emails to healthchecks </h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
-            </div>
-            </div> 
-        </div>
-
-        <h2> How to customise pings.</h2>
-        <div class="panel-group" >
-            <div class="panel panel-default">
-            <div class="panel-body">
-            
-                {% load embed_video_tags %}
-                {% video 'https://www.youtube.com/watch?v=dntcXk_88xk' '430x200' %}
-            </div>
-            </div> 
-        </div>
-            
-            
-    </div>
-    
+        
 </div>
-    
-{%endblock%}
-
-    
-    </body>
-</html>
+{% endblock %}
