@@ -86,3 +86,13 @@ class Profile(models.Model):
 class Member(models.Model):
     team = models.ForeignKey(Profile)
     user = models.ForeignKey(User)
+
+# Model for team access checks and their respective scopes
+
+
+class CheckScope(models.Model):
+    check_code = models.UUIDField()
+    user = models.CharField(max_length=30)
+    pause_check = models.BooleanField(default=False)
+    see_logs = models.BooleanField(default=False)
+    remove_check = models.BooleanField(default=False)
