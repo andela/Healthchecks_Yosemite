@@ -116,6 +116,7 @@
             {% csrf_token %}
             <input type="hidden" name="timeout" id="update-timeout-timeout" />
             <input type="hidden" name="grace" id="update-timeout-grace" />
+            <input type="hidden" name="nag" id="update-timeout-nag" />
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="update-timeout-info text-center">
@@ -189,7 +190,7 @@
                         </div>
 
                         <div class="timeblock">
-                            <label for="days">Days</label><br />
+                            <label for="days1">Days</label><br />
                             <input id="days1" type="number" name="days1" value = "0" min="0" max="31">
                         </div>
                         <div class="timeblock">
@@ -208,6 +209,49 @@
                     </div>
 
                     <div id="grace-slider" style="display: none"></div>
+                    <br />
+                    <div class="update-timeout-info text-center">
+                        <span
+                            class="update-timeout-label"
+                            data-toggle="tooltip"
+                            title="When check is late, how much time to wait until a nag alert is sent">
+                            Nag Time
+                        </span>
+                        <span
+                            id="nag-slider-value1"
+                            class="update-timeout-value1">
+                        </span>
+                    </div>
+
+                    <div class="timeouts" id="nag">
+                        <div class="timeblock">
+                            <label for="years2">Years</label><br />
+                            <input id="years2" type="number" name="years2" value = "0" min="0" max="5">
+                        </div>
+
+                          <div class="timeblock">
+                            <label for="months2">Months</label><br />
+                            <input id="months2" type="number" name="months2" value = "0" min="0" max="12">
+                        </div>
+
+                        <div class="timeblock">
+                            <label for="days2">Days</label><br />
+                            <input id="days2" type="number" name="days2" value = "0" min="0" max="31">
+                        </div>
+                        <div class="timeblock">
+                            <label for="hours2">Hours</label><br />
+                           <input id = "hours2" type="number" name="hours2"  value = "0"  min="0" max="23">
+                        </div>
+                        <div class="timeblock">
+                            <label for="minutes2">Minutes</label><br />
+                            <input id= "minutes2" type="number" name="minutes2"  value = "0"  min="0" max="59">
+                        </div>
+                        <div class="timeblock">
+                            <label for="seconds2">Seconds</label><br />
+                           <input  id= "seconds2" type="number" name="seconds2"  value = "0"  min="0" max="59">
+                        </div>
+                        <br  style="clear: both;" />
+                    </div>
 
                     <br />
                     <div class="update-timeout-terms">
@@ -218,6 +262,10 @@
                         <p>
                             <span>Grace Time</span>
                             When a check is late, how much time to wait until alert is sent.
+                        </p>
+                        <p>
+                            <span>Nag Time</span>
+                            When a check is late, how much time to wait until a nag alert is sent.
                         </p>
                     </div>
 
@@ -348,11 +396,11 @@
 <script src="{% static 'js/checks.js' %}"></script>
 <script type="text/javascript">
 
-    function timestring(y,m,d,h,m,s){
+    function timestring(y,mon,d,h,m,s){
         var ts = 0;
 
         ts += (y>=0)? y * 3600 * 24 * 365 : 0;
-        ts += (m>=0)? m * 3600 * 24 * 31: 0;
+        ts += (mon>=0)? m * 3600 * 24 * 31: 0;
         ts += (d>=0)? d * 3600 * 24: 0;
         ts += (h>=0)? h * 3600:0;
         ts += (m>0)? m * 60: 0;
@@ -364,23 +412,32 @@
     $(function(){
         $('#period input').on('input',function(e){
             var y = parseInt($('#period #years' ).val());
-            var m = parseInt($('#period #months' ).val());
+            var mon = parseInt($('#period #months' ).val());
             var d = parseInt($('#period #days' ).val());
             var h = parseInt($('#period #hours' ).val());
             var m = parseInt($('#period #minutes' ).val());
             var s = parseInt($('#period #seconds' ).val());
-            $('#update-timeout-timeout').val(timestring(y,m,d,h,m,s))
+            $('#update-timeout-timeout').val(timestring(y,mon,d,h,m,s))
         });
 
         $('#grace input').on('input',function(e){
             var y = parseInt($('#grace #years1' ).val());
-            var m = parseInt($('#grace #months1' ).val());
+            var mon = parseInt($('#grace #months1' ).val());
             var d = parseInt($('#grace #days1' ).val());
             var h = parseInt($('#grace #hours1' ).val());
             var m = parseInt($('#grace #minutes1' ).val());
             var s = parseInt($('#grace #seconds1' ).val());
+            $('#update-timeout-grace').val(timestring(y,mon,d,h,m,s))
+        });
 
-            $('#update-timeout-grace').val(timestring(y,m,d,h,m,s))
+        $('#nag input').on('input',function(e){
+            var y = parseInt($('#nag #years2' ).val());
+            var mon = parseInt($('#nag #months2' ).val());
+            var d = parseInt($('#nag #days2' ).val());
+            var h = parseInt($('#nag #hours2' ).val());
+            var m = parseInt($('#nag #minutes2' ).val());
+            var s = parseInt($('#nag #seconds2' ).val());
+            $('#update-timeout-nag').val(timestring(y,mon,d,h,m,s))
         });
     });
 </script>
