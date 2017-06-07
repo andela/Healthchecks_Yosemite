@@ -152,6 +152,7 @@ $(function () {
         var $this = $(this);
         period_times = getTimes($this.data('timeout'));
         grace_times =  getTimes($this.data('grace'));
+        nag_times =  getTimes($this.data('nag'));
 
         $("#update-timeout-form").attr("action", $this.data("url"));
         $("#update-timeout-form #years").val(period_times[0]);
@@ -167,6 +168,13 @@ $(function () {
         $("#update-timeout-form #hours1").val(grace_times[3]);
         $("#update-timeout-form #minutes1").val(grace_times[4]);
         $("#update-timeout-form #seconds1").val(grace_times[5]);
+
+        $("#update-timeout-form #years2").val(nag_times[0]);
+        $("#update-timeout-form #months2").val(nag_times[1]);
+        $("#update-timeout-form #days2").val(nag_times[2]);
+        $("#update-timeout-form #hours2").val(nag_times[3]);
+        $("#update-timeout-form #minutes2").val(nag_times[4]);
+        $("#update-timeout-form #seconds2").val(nag_times[5]);
 
 
         periodSlider.noUiSlider.set($this.data("timeout"));

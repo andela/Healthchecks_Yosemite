@@ -47,12 +47,12 @@
 }
 
 #nag {
-    border: 1px dotted  yellow;
+    border: 1px dotted  #730217;
 }
 
 #nag input {
-    border: 1px solid  yellow;
-    color: yellow;
+    border: 1px solid  #730217;
+    color: #730217;
 }
 .timeouts .timeblock label{
     margin:1px 5px;
