@@ -24,8 +24,6 @@ class Command(BaseCommand):
         nags = query.filter(status="down", nag_after__lt=now)
         checks = list(going_down.iterator()) + list(nags.iterator())
 
-        # import pdb
-        # pdb.set_trace()
         if not nags:
             going_up = query.filter(alert_after__gt=now, status="down")
             checks += list(going_up.iterator())
