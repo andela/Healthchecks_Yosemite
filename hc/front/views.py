@@ -17,6 +17,7 @@ from hc.api.decorators import uuid_or_400
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm)
+from hc.accounts.models import CheckScope
 
 
 # from itertools recipes:
@@ -32,9 +33,26 @@ def my_checks(request):
     q = Check.objects.filter(user=request.team.user).order_by("created")
     checks = list(q)
 
+    email = request.user.email
+
+    team_checks = list(CheckScope.objects.filter(user=email))
+
+    accessible_checks = []
+
+    for check_info in team_checks:
+        q = list(Check.objects.filter(code=check_info.check_code))
+        accessible_checks.append(q[0])
+
+    check_scopes = []
+
+    for check in team_checks:
+        code = str(check.check_code)
+        check_scopes.append([check, [check.see_logs, check.pause_check, check.remove_check]])
+
     counter = Counter()
     down_tags, grace_tags = set(), set()
     for check in checks:
+        print("******!!!!!!!!******!!!!!!!*******!!!!!!", check.code)
         status = check.get_status()
         for tag in check.tags_list():
             if tag == "":
@@ -54,11 +72,30 @@ def my_checks(request):
         "tags": counter.most_common(),
         "down_tags": down_tags,
         "grace_tags": grace_tags,
-        "ping_endpoint": settings.PING_ENDPOINT
+        "ping_endpoint": settings.PING_ENDPOINT,
+        "check_scopes": check_scopes,
+        "true_scope": [True, True, True],
+        "accessible_checks": set(accessible_checks)
     }
 
     return render(request, "front/my_checks.html", ctx)
 
+
+@login_required
+def failed_jobs(request):
+    q = Check.objects.all().order_by("created")
+    checks = []
+    for check in q:
+        status = check.get_status()
+        if status == "down":
+            checks.append(check)
+    ctx = {
+        "page": "failed_jobs",
+        "checks": checks,
+        "ping_endpoint": settings.PING_ENDPOINT
+    }
+
+    return render(request, "front/my_failed_jobs.html", ctx)
 
 def _welcome_check(request):
     check = None
