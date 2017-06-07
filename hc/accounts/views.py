@@ -17,6 +17,7 @@ from hc.accounts.forms import (EmailPasswordForm, InviteTeamMemberForm,
 from hc.accounts.models import Profile, Member
 from hc.api.models import Channel, Check
 from hc.lib.badges import get_badge_url
+from hc.accounts.models import CheckScope
 
 
 def _make_user(email):
@@ -157,8 +158,14 @@ def profile(request):
             form = ReportSettingsForm(request.POST)
             if form.is_valid():
                 profile.reports_allowed = form.cleaned_data["reports_allowed"]
+                profile.report_frequency = form.cleaned_data["report_frequency"]
                 profile.save()
-                messages.success(request, "Your settings have been updated!")
+                if profile.reports_allowed:
+                    msg = "Your settings have been updated. You shall receive {} reports.".format(profile.report_frequency)
+                else:
+                    msg = "Your settings have been updated. You wont receive any reports."
+                messages.success(request, msg)
+
         elif "invite_team_member" in request.POST:
             if not profile.team_access_allowed:
                 return HttpResponseForbidden()
@@ -167,6 +174,28 @@ def profile(request):
             if form.is_valid():
 
                 email = form.cleaned_data["email"]
+                selected_checks = request.POST.getlist("check_name")
+                pause_list = request.POST.getlist("pause")
+                logs_list = request.POST.getlist("logs")
+                remove_list = request.POST.getlist("remove")
+                print("SELECTED CHECKS: ", selected_checks, pause_list, logs_list, remove_list)
+
+                for check in selected_checks:
+                    code = check
+                    if check in pause_list:
+                        pause = True
+                    else:
+                        pause = False
+                    if check in logs_list:
+                        logs = True
+                    else:
+                        logs = False
+                    if check in remove_list:
+                        remove = True
+                    else:
+                        remove = False
+                    CheckScope(check_code=code, user=email, pause_check=pause, see_logs=logs, remove_check=remove).save()
+
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
@@ -185,6 +214,8 @@ def profile(request):
 
                 Member.objects.filter(team=profile,
                                       user=farewell_user).delete()
+                member_checks = CheckScope.objects.filter(user=email)
+                member_checks.delete()
 
                 messages.info(request, "%s removed from team!" % email)
         elif "set_team_name" in request.POST:
@@ -213,7 +244,8 @@ def profile(request):
         "page": "profile",
         "badge_urls": badge_urls,
         "profile": profile,
-        "show_api_key": show_api_key
+        "show_api_key": show_api_key,
+        "checks": Check.objects.filter(user=request.team.user)
     }
 
     return render(request, "accounts/profile.html", ctx)
