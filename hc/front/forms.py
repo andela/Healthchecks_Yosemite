@@ -14,7 +14,7 @@ class NameTagsForm(forms.Form):
             if part != "":
                 l.append(part)
 
-        return " ".join(l)
+        return " ".join(l) 
 
 
 class TimeoutForm(forms.Form):
