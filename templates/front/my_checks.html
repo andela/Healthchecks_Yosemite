@@ -349,7 +349,7 @@
 <script type="text/javascript">
 
     function timestring(y,mon,d,h,m,s){
-        var ts = 0;
+        let ts = 0;
 
         ts += (y>0)? y * 3600 * 24 * 365 : 0;
         ts += (mon>0)? mon * 3600 * 24 * 31: 0;
@@ -363,24 +363,24 @@
 
     $(function(){
         $('#period input').on('input',function(e){
-            var y = parseInt($('#years' ).val());
-            var mon = parseInt($('#months' ).val());
-            var d = parseInt($('#days' ).val());
-            var h = parseInt($('#hours' ).val());
-            var m = parseInt($('#minutes' ).val());
-            var s = parseInt($('#seconds' ).val());
+            let y = parseInt($('#years' ).val());
+            let mon = parseInt($('#months' ).val());
+            let d = parseInt($('#days' ).val());
+            let h = parseInt($('#hours' ).val());
+            let m = parseInt($('#minutes' ).val());
+            let s = parseInt($('#seconds' ).val());
             $('#update-timeout-timeout').val(timestring(y,mon,d,h,m,s))
 
             //alert($('#update-timeout-timeout').val())
         });
 
         $('#grace input').on('input',function(e){
-            var y = parseInt($('#years1' ).val());
-            var mon = parseInt($('#months1' ).val());
-            var d = parseInt($('#days1' ).val());
-            var h = parseInt($('#hours1' ).val());
-            var m = parseInt($('#minutes1' ).val());
-            var s = parseInt($('#seconds1' ).val());
+            let y = parseInt($('#years1' ).val());
+            let mon = parseInt($('#months1' ).val());
+            let d = parseInt($('#days1' ).val());
+            let h = parseInt($('#hours1' ).val());
+            let m = parseInt($('#minutes1' ).val());
+            let s = parseInt($('#seconds1' ).val());
             
             $('#update-timeout-grace').val(timestring(y,mon,d,h,m,s))
 
