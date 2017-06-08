@@ -91,6 +91,7 @@ class Check(models.Model):
 
         return "down"
 
+
     def in_grace_period(self):
         if self.status in ("new", "paused"):
             return False

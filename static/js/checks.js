@@ -1,92 +1,51 @@
-$(function () {
 
-    var MINUTE = {name: "minute", nsecs: 60};
-    var HOUR = {name: "hour", nsecs: MINUTE.nsecs * 60};
-    var DAY = {name: "day", nsecs: HOUR.nsecs * 24};
-    var WEEK = {name: "week", nsecs: DAY.nsecs * 7};
-    var UNITS = [WEEK, DAY, HOUR, MINUTE];
 
-    var secsToText = function(total) {
-        var remainingSeconds = Math.floor(total);
-        var result = "";
-        for (var i=0, unit; unit=UNITS[i]; i++) {
-            if (unit === WEEK && remainingSeconds % unit.nsecs != 0) {
-                // Say "8 days" instead of "1 week 1 day"
-                continue
-            }
+//This is a function that was implemented to compute days , hours and minutes from seconds
+//The function takes in a single argument which is the total number of seconds
+//It returns a four elements array which contains number of days, Hours, minutes and seconds from index 0 to 3 respectively
 
-            var count = Math.floor(remainingSeconds / unit.nsecs);
-            remainingSeconds = remainingSeconds % unit.nsecs;
+function getTimes(seconds){
+    var times = [0,0,0,0,0,0];
+    var tmpTime = parseInt(seconds);
 
-            if (count == 1) {
-                result += "1 " + unit.name + " ";
-            }
-
-            if (count > 1) {
-                result += count + " " + unit.name + "s ";
-            }
-        }
-
-        return result;
+    if (tmpTime >= (3600 * 24 * 365 )){//Total seconds in a year
+            var years= parseInt(tmpTime/(3600*24*365));
+            tmpTime = tmpTime % (3600 * 24 * 365);
+            times[0] = years;
     }
 
-    var periodSlider = document.getElementById("period-slider");
-    noUiSlider.create(periodSlider, {
-        start: [20],
-        connect: "lower",
-        range: {
-            'min': [60, 60],
-            '33%': [3600, 3600],
-            '66%': [86400, 86400],
-            '83%': [604800, 604800],
-            'max': 2592000,
-        },
-        pips: {
-            mode: 'values',
-            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000],
-            density: 4,
-            format: {
-                to: secsToText,
-                from: function() {}
-            }
-        }
-    });
-
-    periodSlider.noUiSlider.on("update", function(a, b, value) {
-        var rounded = Math.round(value);
-        $("#period-slider-value").text(secsToText(rounded));
-        $("#update-timeout-timeout").val(rounded);
-    });
+    if (tmpTime >= (3600 * 24 * 31 )){//Total seconds in a month
+            var months = parseInt(tmpTime/(3600*24 * 31));
+            tmpTime = tmpTime % (3600 * 24 * 31);
+            times[1] = months;
+    }
 
 
-    var graceSlider = document.getElementById("grace-slider");
-    noUiSlider.create(graceSlider, {
-        start: [20],
-        connect: "lower",
-        range: {
-            'min': [60, 60],
-            '33%': [3600, 3600],
-            '66%': [86400, 86400],
-            '83%': [604800, 604800],
-            'max': 2592000,
-        },
-        pips: {
-            mode: 'values',
-            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000],
-            density: 4,
-            format: {
-                to: secsToText,
-                from: function() {}
-            }
-        }
-    });
+    if (tmpTime >= (3600 * 24 )){//Total seconds in a day
+            var days = parseInt(tmpTime/(3600*24));
+            tmpTime = tmpTime % (3600 * 24);
+            times[2] = days;
+    }
 
-    graceSlider.noUiSlider.on("update", function(a, b, value) {
-        var rounded = Math.round(value);
-        $("#grace-slider-value").text(secsToText(rounded));
-        $("#update-timeout-grace").val(rounded);
-    });
+    if (tmpTime >= 3600){//Total seconds in an hours
+            var hours = parseInt(tmpTime/3600);
+            tmpTime = tmpTime % 3600;
+            times[3] = hours;
+    }
 
+    if (tmpTime >= 60){//Total seconds in a minute
+            var minutes = parseInt(tmpTime/60);
+            tmpTime = tmpTime % 60;
+            times[4] = minutes;
+    }
+
+    times[5] = tmpTime;
+    return times;
+}
+
+
+//This marks the begining of JQuery logic
+$(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -102,12 +61,31 @@ $(function () {
         return false;
     });
 
-    $(".timeout-grace").click(function() {
+    $('body').on('click','.timeout-grace',function() {
         var $this = $(this);
+        var period_times = getTimes($this.data('timeout'));
+        var grace_times =  getTimes($this.data('grace'));
+
+        alert(period_times)
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        periodSlider.noUiSlider.set($this.data("timeout"))
-        graceSlider.noUiSlider.set($this.data("grace"))
+        $("#years").val(period_times[0]);
+        $("#months").val(period_times[1]);
+        $("#days").val(period_times[2]);
+        $("#hours").val(period_times[3]);
+        $("#minutes").val(period_times[4]);
+        $("#seconds").val(period_times[5]);
+
+        $("#years1").val(grace_times[0]);
+        $("#months1").val(grace_times[1]);        
+        $("#days1").val(grace_times[2]);
+        $("#hours1").val(grace_times[3]);
+        $("#minutes1").val(grace_times[4]);
+        $("#seconds1").val(grace_times[5]);
+
+
+        //periodSlider.noUiSlider.set($this.data("timeout"));
+        //graceSlider.noUiSlider.set($this.data("grace"));
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;
