@@ -9,7 +9,3 @@ DATABASES = {
         'TEST': {'CHARSET': 'UTF8'}
     }
 }
-TWILIO = True
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
-TWILIO_FROM = os.environ.get('TWILIO_FROM')
