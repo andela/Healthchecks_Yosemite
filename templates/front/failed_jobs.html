@@ -9,7 +9,8 @@
     <div class="col-sm-12">
         <h1>
         {% if request.team == request.user.profile %}
-            My Checks
+
+            Failed jobs 
         {% else %}
             {{ request.team.team_name }}
         {% endif %}
@@ -18,10 +19,10 @@
     {% if tags %}
     <div id="my-checks-tags" class="col-sm-12">
         {% for tag, count in tags %}
-            {% if tag in grace_tags %}
+            {% if tag in down_tags %}
+                <button class="btn btn-danger btn-xs" data-toggle="button">{{ tag }}</button>
+            {% elif tag in grace_tags %}
                 <button class="btn btn-warning btn-xs" data-toggle="button">{{ tag }}</button>
-            {% elif tag in nag_tags%}
-                <button class ="btn btn-nag btn-xs" data-toggle="button">{{ tag }}</button>
             {% else %}
                 <button class="btn btn-default btn-xs" data-toggle="button">{{ tag }}</button>
             {% endif %}
@@ -35,22 +36,13 @@
 
 
     {% if checks %}
-        {% include "front/my_checks_mobile.html" %}
-        {% include "front/my_checks_desktop.html" %}
+        {% include "front/failed_jobs_mobile.html" %}
+        {% include "front/failed_jobs_desktop.html" %}
     {% else %}
     <div class="alert alert-info">You don't have any checks yet.</div>
     {% endif %}
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12">
-        <form method="post" action="{% url 'hc-add-check' %}" class="text-center">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-primary btn-lg" value="Add Check">
-        </form>
-    </div>
-</div>
-
 <div id="update-name-modal" class="modal">
     <div class="modal-dialog">
         <form id="update-name-form" class="form-horizontal" method="post">
@@ -116,7 +108,6 @@
             {% csrf_token %}
             <input type="hidden" name="timeout" id="update-timeout-timeout" />
             <input type="hidden" name="grace" id="update-timeout-grace" />
-            <input type="hidden" name="nag" id="update-timeout-nag" />
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="update-timeout-info text-center">
@@ -150,22 +141,6 @@
 
                     <div id="grace-slider"></div>
 
-                    <div class="update-timeout-info text-center">
-                        <span
-                            class="update-timeout-label"
-                            data-toggle="tooltip"
-                            title="When a check is unresolved, how much time to wait until nags are sent.">
-                            Nag Time
-                        </span>
-                        <span
-                            id="nag-slider-value"
-                            class="update-nag-value">
-                            1 day
-                        </span>
-                    </div>
-
-                    <div id="nag-slider"></div>
-
                     <div class="update-timeout-terms">
                         <p>
                             <span>Period</span>
@@ -174,10 +149,6 @@
                         <p>
                             <span>Grace Time</span>
                             When a check is late, how much time to wait until alert is sent.
-                        </p>
-                        <p>
-                            <span>Nag Time</span>
-                            When a check is unresolved, how much time to wait until nags are sent.
                         </p>
                     </div>
 
