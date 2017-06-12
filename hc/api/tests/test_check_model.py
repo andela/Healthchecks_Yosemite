@@ -20,7 +20,7 @@ class CheckModelTestCase(TestCase):
         check = Check()
 
         check.status = "up"
-        check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
+        check.last_ping = timezone.now() - timedelta(minutes=1)
 
         self.assertTrue(check.in_grace_period())
         self.assertEqual(check.get_status(), "up")
@@ -31,19 +31,19 @@ class CheckModelTestCase(TestCase):
         check = Check()
 
         check.status = "up"
-        check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
+        check.last_ping = timezone.now() - timedelta(minutes=1)
         self.assertTrue(check.in_grace_period())
 
         check.status = "paused"
         self.assertFalse(check.in_grace_period())
 
     ### Test that when a new check is created, it is not in the grace period
-     
+
     def test_check_created_is_not_in_grace_period(self):
-        
+
         check = Check()
         check.status = 'up'
-        check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
+        check.last_ping = timezone.now() - timedelta(minutes=1)
         self.assertTrue(check.in_grace_period())
         check.status = "up"
 

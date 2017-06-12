@@ -46,7 +46,7 @@ class MyChecksTestCase(BaseTestCase):
         self.assertContains(r, "label-danger")
 
     def test_it_shows_amber_check(self):
-        self.check.last_ping = timezone.now() - td(days=1, minutes=30)
+        self.check.last_ping = timezone.now() - td(minutes=1)
         self.check.status = "up"
         self.check.save()
 
