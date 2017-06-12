@@ -4,6 +4,7 @@ from django.utils import timezone
 import json
 import requests
 from six.moves.urllib.parse import quote
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
 
@@ -71,18 +72,14 @@ class Sms(Transport):
                     ))
 
         from_ = settings.TWILIO_FROM
-        TWILIO_ACCOUNT_SID = settings.TWILIO_FROM
+        TWILIO_ACCOUNT_SID = settings.TWILIO_ACCOUNT_SID
         TWILIO_AUTH_TOKEN = settings.TWILIO_AUTH_TOKEN
         if check.status.upper() == "DOWN":
             client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-            for value in self.channel.value:
-                to = value
-                response = client.messages.create(body=message, to=to, from_=from_)
-                return
-        if response.error_message is None:
-            print("\nSMS Errors: None")
-        else:
-            return response.error_message
+            to = self.channel.value
+            response = client.messages.create(body=message, to=to, from_=from_)
+            if response.error_message:
+                return response.error_message
 
 
 class HttpTransport(Transport):
