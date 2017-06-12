@@ -21,10 +21,10 @@ def ping(request, code):
     except Check.DoesNotExist:
         return HttpResponseBadRequest()
 
-    check.n_pings = F("n_pings") + 1
-    check.last_ping = timezone.now()
     if check.status in ("new", "paused"):
         check.status = "up"
+    check.n_pings = F("n_pings") + 1
+    check.last_ping = timezone.now()
 
     check.save()
     check.refresh_from_db()
@@ -104,12 +104,18 @@ def badge(request, username, signature, tag):
         if tag not in check.tags_list():
             continue
 
+        if check.get_status() == "early":
+            status = "early"
+
         if status == "up" and check.in_grace_period():
             status = "late"
 
         if check.get_status() == "down":
             status = "down"
             break
+
+        if check.ping_is_early():
+            status = "early"
 
     svg = get_badge_svg(tag, status)
     return HttpResponse(svg, content_type="image/svg+xml")

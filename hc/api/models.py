@@ -17,7 +17,8 @@ STATUSES = (
     ("up", "Up"),
     ("down", "Down"),
     ("new", "New"),
-    ("paused", "Paused")
+    ("paused", "Paused"),
+    ("early", "Early")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -36,7 +37,6 @@ PO_PRIORITIES = {
 
 
 class Check(models.Model):
-
     class Meta:
         # sendalerts command will query using these
         index_together = ["status", "user", "alert_after"]
@@ -69,7 +69,7 @@ class Check(models.Model):
         return "%s@%s" % (self.code, settings.PING_EMAIL_DOMAIN)
 
     def send_alert(self):
-        if self.status not in ("up", "down"):
+        if self.status not in ("up", "down", "early"):
             raise NotImplementedError("Unexpected status: %s" % self.status)
 
         errors = []
@@ -85,9 +85,20 @@ class Check(models.Model):
             return self.status
 
         now = timezone.now()
+        if len(self.ping_set.all().order_by('-created')) > 2:
+            reversed_grace = self.timeout / 2
+            all_pings = self.ping_set.all().order_by('-created')
+            previous_ping = all_pings[1].created
+            if self.last_ping + self.timeout + self.grace > now:
+                if (self.last_ping - previous_ping) <\
+                                                self.timeout - reversed_grace:
 
-        if self.last_ping + self.timeout + self.grace > now:
-            return "up"
+                    return "early"
+                else:
+                    return "up"
+
+            elif self.last_ping + self.timeout + self.grace > now:
+                return "up"
 
         return "down"
 
@@ -129,6 +140,16 @@ class Check(models.Model):
             result["next_ping"] = None
 
         return result
+
+    def ping_is_early(self):
+        if self.status == "up":
+            pings = Ping.objects.filter(owner=self).order_by('-created')[:2]
+            reverse_grace_period = self.timeout - self.grace
+            if len(pings) == 2:
+                ping_difference = pings[0].created - pings[1].created
+                if reverse_grace_period > ping_difference:
+                    return True
+            return False
 
 
 class Ping(models.Model):
@@ -195,7 +216,10 @@ class Channel(models.Model):
 
         if error != "no-op":
             n = Notification(owner=check, channel=self)
-            n.check_status = check.status
+            if check.status.lower() == "up" and check.ping_is_early:
+                n.check_status = "early"
+            else:
+                n.check_status = check.status
             n.error = error
             n.save()
 
@@ -216,6 +240,13 @@ class Channel(models.Model):
         assert self.kind == "webhook"
         parts = self.value.split("\n")
         return parts[0]
+
+    @property
+    def value_early(self):
+        assert self.kind == "webhook"
+        parts = self.value.split("\n")
+        return parts[0]
+
 
     @property
     def value_up(self):

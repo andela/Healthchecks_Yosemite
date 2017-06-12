@@ -1,11 +1,13 @@
 import logging
 import time
+from datetime import timedelta
+from django.db.models import F
+from hc.api.models import Check, Notification, Ping
 
 from concurrent.futures import ThreadPoolExecutor
 from django.core.management.base import BaseCommand
 from django.db import connection
 from django.utils import timezone
-from hc.api.models import Check
 
 executor = ThreadPoolExecutor(max_workers=10)
 logger = logging.getLogger(__name__)
@@ -16,13 +18,26 @@ class Command(BaseCommand):
 
     def handle_many(self):
         """ Send alerts for many checks simultaneously. """
+        global checks
         query = Check.objects.filter(user__isnull=False).select_related("user")
 
         now = timezone.now()
         going_down = query.filter(alert_after__lt=now, status="up")
         going_up = query.filter(alert_after__gt=now, status="down")
+        going_early = query.filter(alert_after__gt=now, status="early")
+        # up = query.filter(status="up")
         # Don't combine this in one query so Postgres can query using index:
-        checks = list(going_down.iterator()) + list(going_up.iterator())
+        # early = []
+        # # Add all checks with an early ping to early list
+        # for check in list(up.iterator()):
+        #     if check.ping_is_early():
+        #         query = Notification.objects.filter(
+        #             owner=check,
+        #             created__gt=check.last_ping)
+        #         if not query:
+        #             early.append(check)
+
+        checks = list(going_down.iterator()) + list(going_up.iterator()) + list(going_early.iterator())
         if not checks:
             return False
 
