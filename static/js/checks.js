@@ -172,8 +172,8 @@ $(function () {
         $("#update-timeout-form #seconds1").val(grace_times[5]);
 
 
-        periodSlider.noUiSlider.set($this.data("timeout"));
-        graceSlider.noUiSlider.set($this.data("grace"));
+        //periodSlider.noUiSlider.set($this.data("timeout"));
+        //WWWgraceSlider.noUiSlider.set($this.data("grace"));
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;
@@ -244,6 +244,43 @@ $(function () {
 
         $("#show-usage-modal").modal("show");
         return false;
+    });
+
+    $(".user-priorities").click(function(e) {
+        var a = e.target;
+        var url = a.getAttribute("data-url");
+        var email = a.getAttribute("data-email");
+        var owner = a.getAttribute("data-owner");
+
+        $(".display-owner").text(owner);
+
+        $("#show-user-priorities").modal("show");
+        return false;
+    });
+
+
+    $('#available-team-users').on('change', function(){
+        var owner = $(this).val();
+        var li = "<li><span class='owner-name'> " + owner + "</span> &nbsp; <span class='remove-owner' style='cursor:pointer;color:blue'>remove</span></li>";
+        if (parseInt(owner) != 0 ){
+            $('#user-list').append(li);
+            $(this).find('option:selected').remove();
+        }
+    }); 
+
+    $(' #user-list').on('click','.remove-owner' ,function(){
+        var owner = $(this).parent().find('.owner-name').text();
+        var opt = "<option value='"+owner+"'>"+ owner+"</option>";
+         $('#available-team-users').append(opt);
+        $(this).parent().remove();
+    });
+
+    $(' #user-list-save').on('click',function(){var arr = new Array();
+        var arr = new Array();
+        $('user-list li').each(function() { 
+          arr.push($(this).find('.owner-name').innerHTML); 
+        })
+        console.log(arr)
     });
 
 

@@ -256,6 +256,7 @@
         </form>
     </div>
 </div>
+
 <div id="show-usage-modal" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -332,6 +333,32 @@
         </div>
     </div>
 </div>
+
+
+<div id="show-user-priorities" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Users notification priorities</h1>
+            </div>
+            <div class="modal-body">
+                <p > <span class="btn btn-primary"> Owner </span> &nbsp; <span class="display-owner"></span></p>
+                <ol id="user-list"></ol>
+
+                <select id = "available-team-users">
+                    <option value="0">Select Team Member</option>
+                    {% for member in request.user.profile.member_set.all %}
+                        <option value="{{ member.user.email }}">{{ member.user.email}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button id = "user-list-save" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <form id="pause-form" method="post">
     {% csrf_token %}
