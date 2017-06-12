@@ -21,7 +21,6 @@ def ping(request, code):
     except Check.DoesNotExist:
         return HttpResponseBadRequest()
 
-
     if check.status in ("new", "paused"):
         check.status = "up"
     check.n_pings = F("n_pings") + 1
@@ -116,7 +115,7 @@ def badge(request, username, signature, tag):
             break
 
         if check.ping_is_early():
-             status = "early"
+            status = "early"
 
     svg = get_badge_svg(tag, status)
     return HttpResponse(svg, content_type="image/svg+xml")

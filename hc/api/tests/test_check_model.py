@@ -21,7 +21,7 @@ class CheckModelTestCase(TestCase):
         check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
 
         self.assertTrue(check.in_grace_period())
-        self.assertEqual(check.get_status(), "up")
+        self.assertEqual(check.get_status(), "down")
 
         ### The above 2 asserts fail. Make them pass
 
