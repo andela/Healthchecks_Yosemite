@@ -96,6 +96,7 @@ else:
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
+
 if os.environ.get("DB") == "postgres":
     DATABASES = {
         'default': {
@@ -158,6 +159,7 @@ PUSHBULLET_CLIENT_SECRET = None
 
 # Sms intergrations -- override these in local_settings
 TWILIO = True
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
-TWILIO_FROM = os.environ.get('TWILIO_FROM')
+
+TWILIO_ACCOUNT_SID = 'ACd179e78df19ceeb261bb6467a692ad70'
+TWILIO_AUTH_TOKEN = 'fe4cf31569fc892a6625aab8e2908550'
+TWILIO_FROM = '+13347317022'
