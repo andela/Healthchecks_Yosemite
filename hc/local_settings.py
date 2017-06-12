@@ -9,3 +9,4 @@ DATABASES = {
         'TEST': {'CHARSET': 'UTF8'}
     }
 }
+
