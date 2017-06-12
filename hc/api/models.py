@@ -69,7 +69,7 @@ class Check(models.Model):
         return "%s@%s" % (self.code, settings.PING_EMAIL_DOMAIN)
 
     def send_alert(self):
-        if self.status not in ("up", "down"):
+        if self.status not in ("up", "down", "early"):
             raise NotImplementedError("Unexpected status: %s" % self.status)
 
         errors = []
@@ -85,9 +85,20 @@ class Check(models.Model):
             return self.status
 
         now = timezone.now()
+        if len(self.ping_set.all().order_by('-created')) > 2:
+            reversed_grace = self.timeout / 2
+            all_pings = self.ping_set.all().order_by('-created')
+            previous_ping = all_pings[1].created
+            if self.last_ping + self.timeout + self.grace > now:
+                if (self.last_ping - previous_ping) <\
+                                                self.timeout - reversed_grace:
 
-        if self.last_ping + self.timeout + self.grace > now:
-            return "up"
+                    return "early"
+                else:
+                    return "up"
+
+            elif self.last_ping + self.timeout + self.grace > now:
+                return "up"
 
         return "down"
 
@@ -229,6 +240,13 @@ class Channel(models.Model):
         assert self.kind == "webhook"
         parts = self.value.split("\n")
         return parts[0]
+
+    @property
+    def value_early(self):
+        assert self.kind == "webhook"
+        parts = self.value.split("\n")
+        return parts[0]
+
 
     @property
     def value_up(self):

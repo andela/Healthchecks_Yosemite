@@ -18,25 +18,26 @@ class Command(BaseCommand):
 
     def handle_many(self):
         """ Send alerts for many checks simultaneously. """
+        global checks
         query = Check.objects.filter(user__isnull=False).select_related("user")
 
         now = timezone.now()
-        going_down = query.filter(alert_after__lt=now, status = "up")
+        going_down = query.filter(alert_after__lt=now, status="up")
         going_up = query.filter(alert_after__gt=now, status="down")
-        up = query.filter(status = "up")
+        going_early = query.filter(alert_after__gt=now, status="early")
+        # up = query.filter(status="up")
         # Don't combine this in one query so Postgres can query using index:
-        early = []
-        # Add all checks with an early ping to early list
-        for check in list(up.iterator()):
-            if check.ping_is_early():
-                query = Notification.objects.filter(
-                    owner=check,
-                    created__gt=check.last_ping)
-                if not query:
-                     early.append(check)
+        # early = []
+        # # Add all checks with an early ping to early list
+        # for check in list(up.iterator()):
+        #     if check.ping_is_early():
+        #         query = Notification.objects.filter(
+        #             owner=check,
+        #             created__gt=check.last_ping)
+        #         if not query:
+        #             early.append(check)
 
-            checks = list(going_down.iterator()) + list(going_up.iterator()) + early
-
+        checks = list(going_down.iterator()) + list(going_up.iterator()) + list(going_early.iterator())
         if not checks:
             return False
 

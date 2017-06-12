@@ -63,3 +63,6 @@
 .icon-info:before {
   content: "\ea0c";
 }
+.icon-early:before {
+  content: "\e86c";
+}

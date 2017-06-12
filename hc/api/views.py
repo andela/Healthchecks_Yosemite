@@ -105,6 +105,9 @@ def badge(request, username, signature, tag):
         if tag not in check.tags_list():
             continue
 
+        if check.get_status() == "early":
+            status = "early"
+
         if status == "up" and check.in_grace_period():
             status = "late"
 
