@@ -1,7 +1,6 @@
 import json
 import uuid
 from functools import wraps
-
 from django.contrib.auth.models import User
 from django.http import HttpResponseBadRequest, JsonResponse
 from six import string_types

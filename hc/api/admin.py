@@ -95,7 +95,7 @@ class LargeTablePaginator(Paginator):
             cursor.execute("SELECT reltuples FROM pg_class WHERE relname = %s",
                            [self.object_list.query.model._meta.db_table])
             return int(cursor.fetchone()[0])
-        except:
+        except Exception:
             return 0
 
     def _get_count(self):
@@ -168,6 +168,8 @@ class ChannelsAdmin(admin.ModelAdmin):
             return "Slack"
         elif obj.kind == "hipchat":
             return "HipChat"
+        elif obj.kind == "sms":
+            return "SMS"
         elif obj.kind == "email" and obj.email_verified:
             return "Email"
         elif obj.kind == "email" and not obj.email_verified:

@@ -16,6 +16,7 @@ class Command(BaseCommand):
 
     def handle_many(self):
         """ Send alerts for many checks simultaneously. """
+
         query = Check.objects.filter(user__isnull=False).select_related("user")
 
         now = timezone.now()
@@ -39,7 +40,6 @@ class Command(BaseCommand):
         Return False if no checks need to be processed.
 
         """
-
         # Save the new status. If sendalerts crashes,
         # it won't process this check again.
         check.status = check.get_status()
