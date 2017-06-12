@@ -229,7 +229,7 @@
                             <input id="years2" type="number" name="years2" value = "0" min="0" max="5">
                         </div>
 
-                          <div class="timeblock">
+                        <div class="timeblock">
                             <label for="months2">Months</label><br />
                             <input id="months2" type="number" name="months2" value = "0" min="0" max="12">
                         </div>
@@ -400,7 +400,7 @@
         var ts = 0;
 
         ts += (y>=0)? y * 3600 * 24 * 365 : 0;
-        ts += (mon>=0)? m * 3600 * 24 * 31: 0;
+        ts += (mon>=0)? mon * 3600 * 24 * 31: 0;
         ts += (d>=0)? d * 3600 * 24: 0;
         ts += (h>=0)? h * 3600:0;
         ts += (m>0)? m * 60: 0;
@@ -418,6 +418,7 @@
             var m = parseInt($('#period #minutes' ).val());
             var s = parseInt($('#period #seconds' ).val());
             $('#update-timeout-timeout').val(timestring(y,mon,d,h,m,s))
+            
         });
 
         $('#grace input').on('input',function(e){
@@ -438,6 +439,7 @@
             var m = parseInt($('#nag #minutes2' ).val());
             var s = parseInt($('#nag #seconds2' ).val());
             $('#update-timeout-nag').val(timestring(y,mon,d,h,m,s))
+
         });
     });
 </script>
